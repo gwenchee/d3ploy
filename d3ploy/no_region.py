@@ -1,5 +1,5 @@
 """
-The Non-Optimizing institution uses ARMA and ARCH to determine the 
+The Non-Optimizing region uses ARMA and ARCH to determine the 
 supply and demand of a commodity. It uses this information to determine
 the deployment of the supply side agent. Information use to determine the
 deployment is taken from the t-1 time step. This information predicts supply
@@ -13,7 +13,7 @@ from collections import defaultdict
 import numpy as np
 import scipy as sp
 
-from cyclus.agents import Institution, Agent
+from cyclus.agents import Region, Agent
 from cyclus import lib
 import cyclus.typesystem as ts
 
@@ -22,9 +22,9 @@ from arch import arch_model
 
 CALC_METHODS = {}
 
-class NOInst(Institution):
+class NOInst(Region):
     """
-    This institution deploys facilities based on demand curves using 
+    This region deploys facilities based on demand curves using 
     Non Optimizing (NO) methods. 
     """
 
