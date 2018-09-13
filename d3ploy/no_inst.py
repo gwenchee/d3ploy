@@ -43,18 +43,11 @@ class NOInst(Institution):
         default=[]
     )
 
-    growth_rate = ts.Double(
-        doc="This value represents the growth rate that the institution is " +
+    demand_eq = ts.String(
+        doc="This is the string for the demand equation of the driving commodity. " +
             "attempting to meet.",
-        tooltip="Growth rate of growth commodity",
-        uilabel="Growth Rate",
-        default="0.02"    
-    )
-
-    initial_demand = ts.Double(
-        doc="The initial power of the facility",
-        tooltip="Initital demand",
-        uilabel="Initial demand"
+        tooltip="Demand equation for driving commodity",
+        uilabel="Demand Equation"
     )
 
     calc_method = ts.String(
@@ -117,18 +110,19 @@ class NOInst(Institution):
         CALC_METHODS['ma'] = self.moving_avg
         CALC_METHODS['arma'] = self.predict_arma
         CALC_METHODS['arch'] = self.predict_arch
-        print('init')
+        #print('init')
 
     def enter_notify(self):
         super().enter_notify()
+        print('enter notify')
         if self.fresh:
-            print(self.commodities)
+            #rint(self.commodities)
             for commod in self.commodities:
-                print(commod)
+                #print(commod)
                 lib.TIME_SERIES_LISTENERS["supply"+commod].append(self.extract_supply)
                 lib.TIME_SERIES_LISTENERS["demand"+commod].append(self.extract_demand) 
-                print(lib.TIME_SERIES_LISTENERS)
-                print(type(lib.TIME_SERIES_LISTENERS["supply"+commod]))
+                #print(lib.TIME_SERIES_LISTENERS)
+                #print(type(lib.TIME_SERIES_LISTENERS["supply"+commod]))
                 self.commodity_supply[commod] = defaultdict(float)  
                 self.commodity_demand[commod] = defaultdict(float)
                 self.fac_supply[commod] = {}
@@ -136,18 +130,22 @@ class NOInst(Institution):
             self.fresh = False
 
     def tock(self):
+        print('tock')
         """
         This is the tock method for the institution. Here the institution determines the difference
         in supply and demand and makes the the decision to deploy facilities or not.     
         """
-        print('tock')
+        #print('tock')
         time = self.context.time
+        print(self.commod_to_fac)
         for commod, value in self.commod_to_fac.items():
-            if len(value)==0:
+            print(value)
+            if len(value)==0 or time==0:
+                print('skipped')
                 continue
             diff, supply, demand = self.calc_diff(commod, time-1)
-            print(commod)
-            print(self.commod_to_fac)
+            #print(commod)
+            #print(self.commod_to_fac)
             if  diff < 0:
                 proto = random.choice(self.commod_to_fac[commod])
                 ## This is still not correct. If no facilities are present at the start of the
@@ -183,10 +181,14 @@ class NOInst(Institution):
         demand : double
             The calculated demand of the demand commodity at [time]
         """
+        print('calc diff')
+        print(time)
+        print(self.commodity_demand)
         if time not in self.commodity_demand[commod]:
-            self.commodity_demand[commod][time] = self.initial_demand
+            self.commodity_demand[commod][time] = eval(self.demand_eq)
+            print(self.commodity_demand[commod][time])
         if time not in self.commodity_supply[commod]:
-            self.commodity_supply[commod][time] = self.initial_demand              
+            self.commodity_supply[commod][time] = eval(self.demand_eq)    
         try:
             supply = CALC_METHODS[self.calc_method](self.commodity_supply[commod], 
                                                     steps = self.steps, 
@@ -222,11 +224,11 @@ class NOInst(Institution):
             This is the value of the object being recorded in the time
             series.
         """
-        print('EXTRACT SUPPLY')
+        #print('EXTRACT SUPPLY')
         commod = commod[6:]
         self.commodity_supply[commod][time] += value
         self.fac_supply[commod][agent.prototype] = value
-        print("ASDFADFADSFASSD", agent.prototype, commod)
+        #print("ASDFADFADSFASSD", agent.prototype, commod)
         if agent.prototype not in self.commod_to_fac[commod]:
             self.commod_to_fac[commod].append(agent.prototype)
 
@@ -246,7 +248,7 @@ class NOInst(Institution):
             series.
         """      
         commod = commod[6:]
-        print("DEMAND", agent.prototype, commod)
+        #print("DEMAND", agent.prototype, commod)
         self.commodity_demand[commod][time] += value
 
 
@@ -264,6 +266,9 @@ class NOInst(Institution):
         """
         timestep = self.context.dt
         time = time * timestep
+        demand = eval(self.demand_eq)
+        print('demand calc')
+        print(demand)
         demand = self.initial_demand * ((1.0+self.growth_rate)**(time/3.154e+7))
         return demand
 
