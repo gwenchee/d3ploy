@@ -117,6 +117,7 @@ class NOInst(Institution):
         CALC_METHODS['ma'] = self.moving_avg
         CALC_METHODS['arma'] = self.predict_arma
         CALC_METHODS['arch'] = self.predict_arch
+        print('init')
         #self.print_variables()
 
     def print_variables(self):
@@ -131,6 +132,7 @@ class NOInst(Institution):
 
     def enter_notify(self):
         super().enter_notify()
+        print('enter notify')
         if self.fresh:
             for commod in self.commodities:
                 lib.TIME_SERIES_LISTENERS["supply"+commod].append(self.extract_supply)
@@ -146,20 +148,28 @@ class NOInst(Institution):
         This is the tock method for the institution. Here the institution determines the difference
         in supply and demand and makes the the decision to deploy facilities or not.
         """
+        print('tock')
         time = self.context.time
+        print('time',time)
         for commod, value in self.commod_to_fac.items():
             if len(value)==0 or time==0:
                 continue
             diff, supply, demand = self.calc_diff(commod, time-1)
+            print('here')
             if  diff < 0:
+                print('in here')
                 proto = random.choice(self.commod_to_fac[commod])
+                print('proto',proto)
                 ## This is still not correct. If no facilities are present at the start of the
                 ## simulation prod_rate will still return zero. More complex fix is required.
                 if proto in self.fac_supply[commod]:
+                    print('in in here')
                     prod_rate = self.fac_supply[commod][proto]
+                    print('prod rate',prod_rate)
                 else:
                     print("No facility production rate available for " + proto)
                 number = np.ceil(-1*diff/prod_rate)
+                print(number,'number')
                 for i in range(int(number)):
                     self.context.schedule_build(self, proto)
                     i += 1
@@ -186,12 +196,16 @@ class NOInst(Institution):
         demand : double
             The calculated demand of the demand commodity at [time]
         """
+        print('calc diff')
         if time not in self.commodity_demand[commod]:
             t = 0
             self.commodity_demand[commod][time] = eval(self.demand_eq)
         if time not in self.commodity_supply[commod]:
             t = 0
             self.commodity_supply[commod][time] = eval(self.demand_eq)
+        print(commod)
+        print('supply',self.commodity_supply[commod])
+        print('demand',self.commodity_demand[commod])
         try:
             supply = CALC_METHODS[self.calc_method](self.commodity_supply[commod],
                                                     steps = self.steps,
@@ -200,6 +214,7 @@ class NOInst(Institution):
         except (ValueError, np.linalg.linalg.LinAlgError):
             supply = CALC_METHODS['ma'](self.commodity_supply[commod])
         if commod == self.driving_commod:
+            print('DRIVING COMMOD',commod)
             demand = self.demand_calc(time+2)
             self.commodity_demand[commod][time+2] = demand
         try:
@@ -211,6 +226,7 @@ class NOInst(Institution):
         except (np.linalg.linalg.LinAlgError, ValueError):
             demand = CALC_METHODS['ma'](self.commodity_demand[commod])
         diff = supply - demand
+        print('end calc diff')
         return diff, supply, demand
 
     def extract_supply(self, agent, time, value, commod):
@@ -228,6 +244,7 @@ class NOInst(Institution):
             This is the value of the object being recorded in the time
             series.
         """
+        print('extract supply')
         commod = commod[6:]
         self.commodity_supply[commod][time] += value
         self.fac_supply[commod][agent.prototype] = value
@@ -249,6 +266,7 @@ class NOInst(Institution):
             This is the value of the object being recorded in the time
             series.
         """
+        print('extract demand')
         commod = commod[6:]
         self.commodity_demand[commod][time] += value
 
@@ -264,9 +282,12 @@ class NOInst(Institution):
         -------
         demand : The calculated demand at a given timestep.
         """
-        timestep = self.context.dt
+        timestep = self.context.time 
+        print('timestep',timestep)
         t = time * timestep
+        print('t',t)
         demand = eval(self.demand_eq)
+        print('demand calc demand',demand)
         return demand
 
     def moving_avg(self, ts, steps=1, std_dev = 0, back_steps=5):
@@ -285,12 +306,16 @@ class NOInst(Institution):
         -------
         x : The moving average calculated by the function.
         """
+        print('moving avg')
+        print('ts',ts.values())
         supply = np.array(list(ts.values()))
+        print('moving avg supply',supply)
         if steps >= len(supply):
             steps = len(supply) * -1
         else:
             steps *= -1
         x = np.average(supply[steps:])
+        print('x',x)
         return x
 
     def predict_arma(self, ts, steps=2, std_dev = 0, back_steps=5):
@@ -309,6 +334,7 @@ class NOInst(Institution):
         --------
         x : Predicted value for the time series at chosen timestep (time).
         """
+        print('predict arma')
         v = list(ts.values())
         v = v[-1*back_steps:]
         fit = sm.tsa.ARMA(v, (1,0)).fit(disp=-1)
@@ -322,6 +348,7 @@ class NOInst(Institution):
         currently available time series data. This method impliments an ARCH
         calculation to perform the prediciton.
         """
+        print('arch')
         v = list(ts.values())
         model = arch_model(v)
         fit = model.fit(disp='nothing', update_freq=0, show_warning=False)
