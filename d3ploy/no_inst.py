@@ -330,8 +330,10 @@ class NOInst(Institution):
         t = time
         if 't' not in self.demand_eq:
             t = 1
-            self.demand_eq += ' * t'
-        demand = eval(self.demand_eq)
+            demand = eval(self.demand_eq + ' * t')
+        else:
+            demand = eval(self.demand_eq)
+        print(demand)
         return demand
 
     def moving_avg(self, ts, steps=1, std_dev = 0, back_steps=5):
