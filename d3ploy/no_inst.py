@@ -119,6 +119,7 @@ class NOInst(Institution):
     def print_variables(self):
         print('commodities: %s' %self.commodity_dict)
         print('demand_eq: %s' %self.demand_eq)
+        print(type(self.demand_eq))
         print('calc_method: %s' %self.calc_method)
         print('record: %s' %str(self.record))
         print('steps: %i' %self.steps)
@@ -327,6 +328,9 @@ class NOInst(Institution):
         demand : The calculated demand at a given timestep.
         """
         t = time
+        if 't' not in self.demand_eq:
+            t = 1
+            self.demand_eq += ' * t'
         demand = eval(self.demand_eq)
         return demand
 
