@@ -22,6 +22,8 @@ hit_list = glob.glob('*.sqlite') + glob.glob('*.json')
 for file in hit_list:
     os.remove(file)
 
+ENV = dict(os.environ)
+ENV['PYTHONPATH'] = ".:" + ENV.get('PYTHONPATH', '')
 
 def get_cursor(file_name):
     """ Connects and returns a cursor to an sqlite output file
@@ -53,7 +55,7 @@ TEMPLATE = {
                 {"lib": "d3ploy.no_inst", "name": "NOInst"}
             ]
         },
-        "control": {"duration": "1000", "startmonth": "1", "startyear": "2000"},
+        "control": {"duration": "100", "startmonth": "1", "startyear": "2000"},
         "recipe": [
             {
                 "basis": "mass",
@@ -67,13 +69,13 @@ TEMPLATE = {
             }
         ],
         "facility": [{
-            "config": {"Source": {"outcommod": "fresh_fuel",
+            "config": {"Source": {"outcommod": "fuel",
                                   "outrecipe": "fresh_uox",
-                                  "throughput": "1000"}},
+                                  "throughput": "3000"}},
             "name": "source"
         },
             {
-            "config": {"Sink": {"in_commods": {"val": "spent_fuel"},
+            "config": {"Sink": {"in_commods": {"val": "spentfuel"},
                                 "max_inv_size": "1e6"}},
             "name": "sink"
         },
@@ -81,16 +83,15 @@ TEMPLATE = {
             "config": {
                 "Reactor": {
                     "assem_size": "1000",
-                    "cycle_time": "18",
-                    "fuel_incommods": {"val": "fresh_fuel"},
+                    "cycle_time": "1",
+                    "fuel_incommods": {"val": "fuel"},
                     "fuel_inrecipes": {"val": "fresh_uox"},
-                    "fuel_outcommods": {"val": "spent_fuel"},
+                    "fuel_outcommods": {"val": "spentfuel"},
                     "fuel_outrecipes": {"val": "spent_uox"},
                     "n_assem_batch": "1",
                     "n_assem_core": "3",
                     "power_cap": "1000",
                     "refuel_time": "1",
-                    "reactor_fuel_demand": "fuel_reactor"
                 }
             },
             "name": "reactor"
@@ -166,7 +167,7 @@ def supply_within_demand_range(sql_file):
 
 
 #######################TEST_A_Constant_1####################################
-""" 
+"""
 Test A-Constant-1 
         - [A]: facility - source, demand-driving commodity - fresh fuel 
         - [Constant]: constant demand of fuel commodity that drives deployment 
@@ -179,12 +180,11 @@ test_a_const_1_template["simulation"].update({"region": {
     "institution": {
         "config": {
             "NOInst": {
-                "calc_method": "arma", 
-                "commodities": {"val": ["fuel"]}, 
-                "demand_std_dev": "1.0", 
-                "growth_rate": "1.0", 
-                "initial_demand": "1000", 
-                "record": "1", 
+                "calc_method": "ma",
+                "commodities": {"val": ["POWER_reactor_1000", "fuel_source_3000"]},
+                "demand_eq": "10000",
+                "demand_std_dev": "0.0",
+                "record": "1",
                 "steps": "1"
             }
         },
@@ -219,6 +219,7 @@ def test_a_const_1():
         - [Growth]: growing demand of commodity that drives deployment
         - [1]: first test of a-growth type 
 """
+"""
 # Configuring it for this test instance 
 test_a_grow_1_temp = copy.deepcopy(TEMPLATE)
 test_a_grow_1_temp["simulation"].update({"region": {
@@ -226,12 +227,11 @@ test_a_grow_1_temp["simulation"].update({"region": {
     "institution": {
         "config": {
             "NOInst": {
-                "calc_method": "arma", 
-                "commodities": {"val": ["fuel"]}, 
-                "demand_std_dev": "1.0", 
-                "growth_rate": "1.0", 
-                "initial_demand": "10000", 
-                "record": "1", 
+                "calc_method": "ma",
+                "commodities": {"val": ["POWER_reactor_1", "fuel_source_1"]},
+                "demand_eq": "100*t",
+                "demand_std_dev": "0.0",
+                "record": "1",
                 "steps": "1"
             }
         },
@@ -256,7 +256,7 @@ def test_a_grow_1():
     # check if supply of fuel is within facility_tolerance & catchup_tolerance
     number_within_tolerance = supply_within_demand_range('test_a_grow_1_file.sqlite')
     assert(number_within_tolerance == 0)
-
+"""
 ######################################################################################
 
 #################################TEST_A_Grow_2########################################
@@ -265,6 +265,7 @@ def test_a_grow_1():
     - [Growth]: growing demand of commodity that drives deployment
     - [2]: second test of a-growth type 
 """
+"""
 # Configuring it for this test instance 
 test_a_grow_2_temp = copy.deepcopy(TEMPLATE)
 test_a_grow_2_temp["simulation"].update({"region": {
@@ -272,12 +273,11 @@ test_a_grow_2_temp["simulation"].update({"region": {
     "institution": {
         "config": {
             "NOInst": {
-                "calc_method": "arma", 
-                "commodities": {"val": ["fuel"]}, 
-                "demand_std_dev": "1.0", 
-                "growth_rate": "1.0", 
-                "initial_demand": "0", 
-                "record": "1", 
+                "calc_method": "ma",
+                "commodities": {"val": ["POWER_reactor_1", "fuel_source_1"]},
+                "demand_eq": "10*(1+0.1)**(t/12)",
+                "demand_std_dev": "0.0",
+                "record": "0",
                 "steps": "1"
             }
         },
@@ -287,7 +287,8 @@ test_a_grow_2_temp["simulation"].update({"region": {
 }
 }
 )
-
+"""
+"""
 # actual test part
 def test_a_grow_2():
     output_file = 'test_a_grow_1_file.sqlite'
@@ -302,5 +303,5 @@ def test_a_grow_2():
     # check if supply of fuel is within facility_tolerance & catchup_tolerance
     number_within_tolerance = supply_within_demand_range('test_a_grow_1_file.sqlite')
     assert(number_within_tolerance == 0)
-
+"""
 #######################################################################################    
