@@ -249,12 +249,16 @@ class NOInst(Institution):
             The calculated demand of the demand commodity at [time]
         """
         # what is this?
+        print('commodity demand',self.commodity_demand)
+        print('commodity supply',self.commodity_supply)
+        """
         if time not in self.commodity_demand[commod]:
-            t = 0
-            self.commodity_demand[commod][time] = eval(self.demand_eq)
+            t = 1
+            self.commodity_demand[commod][time] = eval(self.demand_eq + ' * t')
         if time not in self.commodity_supply[commod]:
-            t = 0
-            self.commodity_supply[commod][time] = eval(self.demand_eq)
+            self.commodity_supply[commod][time] = 0
+            """
+        #print(self.commodity_demand)
         try:
             supply = CALC_METHODS[self.calc_method](self.commodity_supply[commod],
                                                     steps = self.steps,
@@ -328,8 +332,10 @@ class NOInst(Institution):
         demand : The calculated demand at a given timestep.
         """
         t = time
+        print('t',t)
         if 't' not in self.demand_eq:
             t = 1
+            print(self.demand_eq + ' * t')
             demand = eval(self.demand_eq + ' * t')
         else:
             demand = eval(self.demand_eq)
