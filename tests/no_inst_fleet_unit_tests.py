@@ -205,6 +205,8 @@ def test_a_const_1():
     number_within_tolerance = supply_within_demand_range('test_a_const_1_file.sqlite')
     assert(number_within_tolerance == 0)
 
+    # save a plot that plots time timeseriessupplyfuel 
+
 ##############################################################################
 
 ############################TEST_A_Grow_1#####################################
