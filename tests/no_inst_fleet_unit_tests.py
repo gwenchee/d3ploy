@@ -208,7 +208,7 @@ test_a_const_1_template["simulation"].update({"region": {
     "institution": {
         "config": {
             "NOInst": {
-                "calc_method": "arma",
+                "calc_method": "ma",
                 "commodities": {"val": ["fuel_source_3000"]},
                 "driving_commod": "fuel",
                 "demand_std_dev": "1.0",
@@ -255,7 +255,7 @@ test_a_grow_1_temp["simulation"].update({"region": {
     "institution": {
         "config": {
             "NOInst": {
-                "calc_method": "arma", 
+                "calc_method": "ma", 
                 "commodities": {"val": ["fuel_source_3000"]}, 
                 "driving_commod": "fuel",
                 "demand_std_dev": "1.0", 
@@ -302,7 +302,7 @@ test_a_grow_2_temp["simulation"].update({"region": {
     "institution": {
         "config": {
             "NOInst": {
-                "calc_method": "arma",
+                "calc_method": "ma",
                 "commodities": {"val": ["fuel_source_3000"]},
                 "driving_commod": "fuel",
                 "demand_std_dev": "1.0",
