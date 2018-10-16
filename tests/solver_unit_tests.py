@@ -16,9 +16,7 @@ def test_deploy_solver():
         for i in range(4):
             commod.update({str(i): random.uniform(0.1, 9.9)})
         deploy_dict = solver.deploy_solver({'commod':commod}, 'commod', diff)
-        # actually deploy and see if it's good
         final_diff = diff
-        print(commodity_dict)
         for key, val in deploy_dict.items():
             final_diff += val * commod[key]
 
