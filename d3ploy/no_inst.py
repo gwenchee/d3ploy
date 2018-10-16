@@ -12,7 +12,7 @@ import math
 from collections import defaultdict
 import numpy as np
 import scipy as sp
-import solver
+import d3ploy.solver
 
 from cyclus.agents import Institution, Agent
 from cyclus import lib
