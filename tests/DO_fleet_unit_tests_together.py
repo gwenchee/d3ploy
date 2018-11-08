@@ -121,18 +121,17 @@ for x in range(0,len(calc_methods)):
     s = subprocess.check_output(['cyclus', '-o', output_file, input_file],
                                 universal_newlines=True, env=ENV)
 
-    #dict_demand, dict_supply, dict_calc_demand, dict_calc_supply = functions.supply_demand_dict_driving(output_file,demand_eq,'fuel')
+    dict_demand, dict_supply, dict_calc_demand, dict_calc_supply = functions.supply_demand_dict_driving(output_file,demand_eq,'fuel')
     # plots demand, supply, calculated demand, calculated supply for the scenario for each calc method 
-    #functions.plot_demand_supply(dict_demand, dict_supply, dict_calc_demand, dict_calc_supply,demand_eq,name)
+    functions.plot_demand_supply(dict_demand, dict_supply, dict_calc_demand, dict_calc_supply,demand_eq,name)
 
-    #dict_total[x], dict_negative[x] = functions.calculate_total_neg(dict_demand, dict_supply)
+    dict_total[x], dict_negative[x] = functions.calculate_total_neg(dict_demand, dict_supply)
 
-#print('dicttotal',dict_total)
-#print('dictnegative',dict_negative)
 
 # tells you which is the best calc method based on normalizing and scoring
-#best_calc_method = calc_methods[functions.find_best(dict_total,dict_negative)]
-#print(best_calc_method)
+calc_method_num, score = functions.find_best(dict_total,dict_negative)
+best_calc_method = calc_methods[calc_method_num]
+print('SCENARIO1',best_calc_method)
 
 ######################################SCENARIO 2################################################
 scenario_2_input = {}
@@ -239,9 +238,9 @@ for x in range(0,len(calc_methods)):
 calc_method_num, score = functions.find_best(dict_total,dict_negative)
 best_calc_method = calc_methods[calc_method_num]
 print('POWER',best_calc_method)
-print(score)
+print('POWER score',score)
 
 calc_method_num2, score2 = functions.find_best(dict_total2,dict_negative2)
 best_calc_method2 = calc_methods[calc_method_num2]
 print('FUEL',best_calc_method2)
-print('score2',score2)
+print('FUEL score',score2)
