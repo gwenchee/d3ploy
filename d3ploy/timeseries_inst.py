@@ -211,8 +211,8 @@ class TimeSeriesInst(Institution):
         """
         time = self.context.time
         print('time',time)
-        print('commoditysupply',self.commodity_supply)
-        print('commoditydemand',self.commodity_demand)
+        #print('commoditysupply',self.commodity_supply)
+        #print('commoditydemand',self.commodity_demand)
 
         for commod, proto_cap in self.commodity_dict.items():
             if not bool(proto_cap):
