@@ -82,7 +82,7 @@
       <assem_size>1</assem_size>
       <cycle_time>1</cycle_time>
       <fuel_incommods>
-        <val>storage_uox</val>
+        <val>storageuox</val>
       </fuel_incommods>
       <fuel_inrecipes>
         <val>fresh_uox</val>
@@ -109,7 +109,7 @@
                 <val>spent_uox</val>
             </in_commods>
             <out_commods>
-                <val>storage_uox</val>
+                <val>storageuox</val>
             </out_commods>
             <residence_time>1</residence_time>
             <throughput>1E299</throughput>
@@ -155,7 +155,7 @@
           <demand_eq>3*t</demand_eq>
           <commodities>
               <val>POWER_reactor_1_11-t</val>
-              <val>POWER_reactor2_1_t_storage_uox_8</val>
+              <val>POWER_reactor2_1_t_storageuox_8</val>
               <val>fuel_source_1</val>
           </commodities>
           <steps>1</steps>
