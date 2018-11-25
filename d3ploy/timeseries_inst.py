@@ -167,13 +167,18 @@ class TimeSeriesInst(Institution):
 
             # preference is optional
             # also for backwards compatibility
-            if len(z) >= 4:
+            if len(z) == 4:
                 if z[0] not in pref_dict.keys():
                     pref_dict[z[0]] = {}
                     pref_dict[z[0]].update({z[1]: z[3]})
                 else:
                     pref_dict[z[0]].update({z[1]: z[3]})
             if len(z) == 6:
+                if z[0] not in pref_dict.keys():
+                    pref_dict[z[0]] = {}
+                    pref_dict[z[0]].update({z[1]: z[3]})
+                else:
+                    pref_dict[z[0]].update({z[1]: z[3]})
                 if z[0] not in second_driving_commod_dict.keys(): 
                     second_driving_commod_dict[z[0]] = {}
                     second_driving_commod_dict[z[0]][z[1]] = {}
