@@ -210,6 +210,9 @@ class TimeSeriesInst(Institution):
         in supply and demand and makes the the decision to deploy facilities or not.
         """
         time = self.context.time
+        print('time',time)
+        print('commoditysupply',commodity_supply)
+        print('commoditydemand',commodity_demand)
 
         for commod, proto_cap in self.commodity_dict.items():
             if not bool(proto_cap):
@@ -221,7 +224,7 @@ class TimeSeriesInst(Institution):
 
             if diff < 0:
                 deploy_dict = solver.deploy_solver(
-                    self.commodity_dict, self.pref_dict, commod, diff, time)
+                    self.commodity_dict, self.pref_dict, self.second_driving_commod_dict, commod, diff, time)
                 for proto, num in deploy_dict.items():
                     for i in range(num):
                         self.context.schedule_build(self, proto)
