@@ -156,6 +156,7 @@ class TimeSeriesInst(Institution):
         temp = commodities
         commodity_dict = {}
         pref_dict = {}
+        second_driving_commod = {}
         for entry in temp:
             z = entry.split('_')
             if z[0] not in commodity_dict.keys():
@@ -166,14 +167,22 @@ class TimeSeriesInst(Institution):
 
             # preference is optional
             # also for backwards compatibility
-            if len(z) == 4:
+            if len(z) >= 4:
                 if z[0] not in pref_dict.keys():
                     pref_dict[z[0]] = {}
                     pref_dict[z[0]].update({z[1]: z[3]})
                 else:
                     pref_dict[z[0]].update({z[1]: z[3]})
-
-        return commodity_dict, pref_dict
+            if len(z) == 6:
+                if z[0] not in second_driving_commod.keys(): 
+                    second_driving_commod[z[0]] = {}
+                    second_driving_commod[z[0]].update(z[1]:{z[4]:z[5]})
+                else: 
+                    second_driving_commod[z[0]].update(z[1]:{z[4]:z[5]}) 
+        print('parse commodities')
+        print('commoditydict',commodity_dict)
+        print('prefdict',pref_dict)
+        return commodity_dict, pref_dict, second
 
     def enter_notify(self):
         super().enter_notify()
