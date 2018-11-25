@@ -159,6 +159,7 @@ class TimeSeriesInst(Institution):
         second_driving_commod_dict = {}
         for entry in temp:
             z = entry.split('_')
+            print('z',z)
             if z[0] not in commodity_dict.keys():
                 commodity_dict[z[0]] = {}
                 commodity_dict[z[0]].update({z[1]: float(z[2])})
