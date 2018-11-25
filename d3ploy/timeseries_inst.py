@@ -156,7 +156,7 @@ class TimeSeriesInst(Institution):
         temp = commodities
         commodity_dict = {}
         pref_dict = {}
-        second_driving_commod = {}
+        second_driving_commod_dict = {}
         for entry in temp:
             z = entry.split('_')
             if z[0] not in commodity_dict.keys():
@@ -174,21 +174,22 @@ class TimeSeriesInst(Institution):
                 else:
                     pref_dict[z[0]].update({z[1]: z[3]})
             if len(z) == 6:
-                if z[0] not in second_driving_commod.keys(): 
-                    second_driving_commod[z[0]] = {}
-                    second_driving_commod[z[0]].update(z[1]:{z[4]:z[5]})
+                if z[0] not in second_driving_commod_dict.keys(): 
+                    second_driving_commod_dict[z[0]] = {}
+                    second_driving_commod_dict[z[0]].update(z[1]:{z[4]:z[5]})
                 else: 
-                    second_driving_commod[z[0]].update(z[1]:{z[4]:z[5]}) 
+                    second_driving_commod_dict[z[0]].update(z[1]:{z[4]:z[5]}) 
         print('parse commodities')
         print('commoditydict',commodity_dict)
         print('prefdict',pref_dict)
+        print('second_driving_commod_dict',second_driving_commod_dict)
         return commodity_dict, pref_dict, second
 
     def enter_notify(self):
         super().enter_notify()
         if self.fresh:
             # convert list of strings to dictionary
-            self.commodity_dict, self.pref_dict = self.parse_commodities(
+            self.commodity_dict, self.pref_dict, self.second_driving_commod_dict = self.parse_commodities(
                 self.commodities)
             for commod in self.commodity_dict:
                 lib.TIME_SERIES_LISTENERS["supply" +
