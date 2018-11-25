@@ -176,9 +176,12 @@ class TimeSeriesInst(Institution):
             if len(z) == 6:
                 if z[0] not in second_driving_commod_dict.keys(): 
                     second_driving_commod_dict[z[0]] = {}
-                    second_driving_commod_dict[z[0]].update(z[1]:{z[4]:z[5]})
+                    second_driving_commod_dict[z[0]][z[1]] = {}
+                    second_driving_commod_dict[z[0]][z[1]].update({z[4]:z[5]})
                 else: 
-                    second_driving_commod_dict[z[0]].update(z[1]:{z[4]:z[5]}) 
+                    second_driving_commod_dict[z[0]][z[1]] = {}
+                    second_driving_commod_dict[z[0]][z[1]].update({z[4]:z[5]})
+
         print('parse commodities')
         print('commoditydict',commodity_dict)
         print('prefdict',pref_dict)
