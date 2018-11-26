@@ -221,10 +221,21 @@ class TimeSeriesInst(Institution):
             diff, supply, demand = self.calc_diff(commod, time)
             lib.record_time_series(commod+'calc_supply', self, supply)
             lib.record_time_series(commod+'calc_demand', self, demand)
-
+            commodity_dict_temp = {}
+            pref_dict_temp = {}
+            # i am trying to delete the element (specific facility) from dic if it is not large enough 
+            if commod in  second_driving_commod_dict.keys(): 
+                for second_driving_commod, second_driving_commod_value in second_driving_commod_dict.items():
+                    if self.commodity_supply[second_driving_commod][time] < second_driving_commod_value: 
+                        commodity_dict_temp = commodity_dict
+                        pref_dict_temp = pref_dict
+                        del commodity_dict_temp['commod']['']
+            else: 
+                commodity_dict_temp = commodity_dict
+                pref_dict_temp = pref_dict
             if diff < 0:
                 deploy_dict = solver.deploy_solver(
-                    self.commodity_dict, self.pref_dict, self.second_driving_commod_dict, commod, diff, time)
+                    commodity_dict_temp, pref_dict_temp, commod, diff, time)
                 for proto, num in deploy_dict.items():
                     for i in range(num):
                         self.context.schedule_build(self, proto)

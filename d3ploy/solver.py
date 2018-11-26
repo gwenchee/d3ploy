@@ -10,7 +10,7 @@ aid `timeseries_inst.py'.
 """
 
 
-def deploy_solver(commodity_dict, pref_dict,second_driving_commod_dict, commod, diff, time):
+def deploy_solver(commodity_dict, pref_dict, commod, diff, time):
     """ This function optimizes prototypes to deploy to minimize over
         deployment of prototypes.
     Paramters:
@@ -31,15 +31,6 @@ def deploy_solver(commodity_dict, pref_dict,second_driving_commod_dict, commod, 
                 prototype name
             value: str
                 preference as an equation
-    second_driving_commod_dict: dictionary
-        key: str
-            commodity name
-        value: dictionary
-            key: str
-                prototype name
-            value: dictionary
-                key: second driving commodity 
-                value: amount required of the second driving commodity before it can be deployed
     commod: str
         commodity driving deployment
     diff: float
