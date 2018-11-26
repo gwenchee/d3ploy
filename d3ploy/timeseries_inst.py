@@ -224,7 +224,7 @@ class TimeSeriesInst(Institution):
             commodity_dict_temp = {}
             pref_dict_temp = {}
             # i am trying to delete the element (specific facility) from dic if it is not large enough 
-            if commod in  second_driving_commod_dict.keys(): 
+            if commod in second_driving_commod_dict.keys(): 
                 for second_driving_commod, second_driving_commod_value in second_driving_commod_dict.items():
                     if self.commodity_supply[second_driving_commod][time] < second_driving_commod_value: 
                         commodity_dict_temp = commodity_dict
