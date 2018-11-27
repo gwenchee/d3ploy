@@ -156,6 +156,7 @@ class TimeSeriesInst(Institution):
         temp = commodities
         commodity_dict = {}
         pref_dict = {}
+        second_driving_commod_dict = {}
         for entry in temp:
             z = entry.split('_')
             if z[0] not in commodity_dict.keys():
@@ -166,20 +167,30 @@ class TimeSeriesInst(Institution):
 
             # preference is optional
             # also for backwards compatibility
-            if len(z) == 4:
+            if len(z) >= 4:
                 if z[0] not in pref_dict.keys():
                     pref_dict[z[0]] = {}
                     pref_dict[z[0]].update({z[1]: z[3]})
                 else:
                     pref_dict[z[0]].update({z[1]: z[3]})
-
-        return commodity_dict, pref_dict
+            if len(z) == 6:
+                if z[0] not in second_driving_commod_dict.keys(): 
+                    second_driving_commod_dict[z[0]] = {}
+                    second_driving_commod_dict[z[0]][z[1]] = {}
+                    second_driving_commod_dict[z[0]][z[1]].update({z[4]:z[5]})
+                else: 
+                    second_driving_commod_dict[z[0]][z[1]] = {}
+                    second_driving_commod_dict[z[0]][z[1]].update({z[4]:z[5]})  
+        print('commoditydict',commodity_dict)
+        print('prefdict',pref_dict)
+        print('second_driving_commod_dict',second_driving_commod_dict)
+        return commodity_dict, pref_dict, second_driving_commod_dict
 
     def enter_notify(self):
         super().enter_notify()
         if self.fresh:
             # convert list of strings to dictionary
-            self.commodity_dict, self.pref_dict = self.parse_commodities(
+            self.commodity_dict, self.pref_dict, self.second_driving_commod_dict = self.parse_commodities(
                 self.commodities)
             for commod in self.commodity_dict:
                 lib.TIME_SERIES_LISTENERS["supply" +
@@ -205,6 +216,10 @@ class TimeSeriesInst(Institution):
             lib.record_time_series(commod+'calc_supply', self, supply)
             lib.record_time_series(commod+'calc_demand', self, demand)
 
+            if commod in self.second_driving_commod_dict.keys(): 
+                for commod, dict in self.second_driving_commod_dict.items(): 
+                    for proto, dict2 in dict.items(): 
+                        for 
             if diff < 0:
                 deploy_dict = solver.deploy_solver(
                     self.commodity_dict, self.pref_dict, commod, diff, time)
