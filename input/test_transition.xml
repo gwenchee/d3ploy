@@ -40,17 +40,7 @@
     </config>
     <name>source</name>
   </facility>
-  <facility>
-    <config>
-      <Sink>
-        <in_commods>
-          <val>spent_uox</val>
-        </in_commods>
-        <max_inv_size>10</max_inv_size>
-      </Sink>
-    </config>
-    <name>sink</name>
-  </facility>
+
   <facility>
     <config>
       <Reactor>
@@ -63,7 +53,7 @@
           <val>fresh_uox</val>
         </fuel_inrecipes>
         <fuel_outcommods>
-          <val>spent_uox</val>
+          <val>spentuox</val>
         </fuel_outcommods>
         <fuel_outrecipes>
           <val>spent_uox</val>
@@ -76,6 +66,7 @@
     </config>
     <name>reactor</name>
   </facility>
+
   <facility>
   <config>
     <Reactor>
@@ -88,7 +79,7 @@
         <val>fresh_uox</val>
       </fuel_inrecipes>
       <fuel_outcommods>
-        <val>spent_uox_2</val>
+        <val>spentuox2</val>
       </fuel_outcommods>
       <fuel_outrecipes>
         <val>spent_uox</val>
@@ -101,12 +92,13 @@
   </config>
   <name>reactor2</name>
 </facility>
+
 <facility>
-    <name>uox_pool</name>
+    <name>uoxpool</name>
     <config>
         <Storage>
             <in_commods>
-                <val>spent_uox</val>
+                <val>spentuox</val>
             </in_commods>
             <out_commods>
                 <val>storageuox</val>
@@ -117,6 +109,19 @@
         </Storage>
       </config>
 </facility>
+
+  <facility>
+    <config>
+      <Sink>
+        <in_commods>
+          <val>spentuox2</val>
+        </in_commods>
+        <max_inv_size>10</max_inv_size>
+      </Sink>
+    </config>
+    <name>sink</name>
+  </facility>
+
   <recipe>
     <basis>mass</basis>
     <name>fresh_uox</name>
@@ -157,6 +162,7 @@
               <val>POWER_reactor_1_11-t</val>
               <val>POWER_reactor2_1_t_storageuox_8</val>
               <val>fuel_source_1</val>
+              <val>storageuox_uoxpool_1</val>
           </commodities>
           <steps>1</steps>
         </TimeSeriesInst>

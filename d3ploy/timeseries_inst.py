@@ -176,17 +176,16 @@ class TimeSeriesInst(Institution):
             if len(z) == 6:
                 if z[0] not in second_driving_commod_dict.keys(): 
                     second_driving_commod_dict[z[0]] = {}
-                    second_driving_commod_dict[z[0]][z[1]] = {}
-                    second_driving_commod_dict[z[0]][z[1]].update({z[4]:z[5]})
+                    second_driving_commod_dict[z[0]][z[1]] = [z[4],z[5]]
                 else: 
-                    second_driving_commod_dict[z[0]][z[1]] = {}
-                    second_driving_commod_dict[z[0]][z[1]].update({z[4]:z[5]})  
+                    second_driving_commod_dict[z[0]][z[1]] = [z[4],z[5]]
         print('commoditydict',commodity_dict)
         print('prefdict',pref_dict)
         print('second_driving_commod_dict',second_driving_commod_dict)
         return commodity_dict, pref_dict, second_driving_commod_dict
 
     def enter_notify(self):
+        print('ENTER NOTIFY')
         super().enter_notify()
         if self.fresh:
             # convert list of strings to dictionary
@@ -207,7 +206,7 @@ class TimeSeriesInst(Institution):
         in supply and demand and makes the the decision to deploy facilities or not.
         """
         time = self.context.time
-
+        print('TIME',self.context.time)
         for commod, proto_cap in self.commodity_dict.items():
             if not bool(proto_cap):
                 raise ValueError(
@@ -215,11 +214,24 @@ class TimeSeriesInst(Institution):
             diff, supply, demand = self.calc_diff(commod, time)
             lib.record_time_series(commod+'calc_supply', self, supply)
             lib.record_time_series(commod+'calc_demand', self, demand)
+            
+            print('commoditysupply',self.commodity_supply)
 
             if commod in self.second_driving_commod_dict.keys(): 
-                for commod, dict in self.second_driving_commod_dict.items(): 
-                    for proto, dict2 in dict.items(): 
-                        for 
+                for commod, dict1 in self.second_driving_commod_dict.items(): 
+                    for proto, second_driving_commod_list in dict1.items(): 
+                        second_driving_commod = second_driving_commod_list[0]
+                        second_driving_commod_val = second_driving_commod_list[1]
+                #print('proto',proto)
+                #print(self.commodity_supply[commod][second_driving_commod][time])
+                #if (self.commodity_supply[commod][second_driving_commod][time] <= second_driving_commod_val): 
+                #    commodity_dict_temp = {}
+                #    pref_dict_temp = {}
+                    #commodity_dict_temp = self.commodity_dict
+                    #pref_dict_temp = self.pref_dict 
+                    #del commodity_dict_temp['POWER'][proto]
+                    #print(commodity_dict_temp)
+
             if diff < 0:
                 deploy_dict = solver.deploy_solver(
                     self.commodity_dict, self.pref_dict, commod, diff, time)
