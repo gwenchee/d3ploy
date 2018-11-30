@@ -238,6 +238,7 @@ class TimeSeriesInst(Institution):
             The calculated demand of the demand commodity at [time]
         """
         if time not in self.commodity_demand[commod]:
+            print('I go here')
             t = 0
             self.commodity_demand[commod][time] = eval(self.demand_eq)
         if time not in self.commodity_supply[commod]:
