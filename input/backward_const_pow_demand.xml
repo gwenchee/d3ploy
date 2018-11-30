@@ -119,7 +119,7 @@
     </institution>
     <institution>
       <config>
-        <TimeSeriesInst>
+        <SupplyInst>
           <calc_method>ma</calc_method>
           <commodities>
             <val>spentfuel_sink_1000000</val>
