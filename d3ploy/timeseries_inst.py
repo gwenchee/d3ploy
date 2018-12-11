@@ -29,6 +29,10 @@ class TimeSeriesInst(Institution):
     time series methods.
     """
 
+    typesystem = ts.String(
+        doc = "testing map int string"
+    )
+
     commodities = ts.VectorString(
         doc="A list of commodities that the institution will manage. " +
             "commodity_prototype_capacity format" + 
