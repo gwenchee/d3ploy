@@ -193,7 +193,7 @@ class TimeSeriesInst(Institution):
         in supply and demand and makes the the decision to deploy facilities or not.
         """
         time = self.context.time
-
+        print(typesystem)
         for commod, proto_cap in self.commodity_dict.items():
             if not bool(proto_cap):
                 raise ValueError(
