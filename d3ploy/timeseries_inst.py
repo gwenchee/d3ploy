@@ -29,11 +29,11 @@ class TimeSeriesInst(Institution):
     time series methods.
     """
 
-    contract = ts.PairDoubleMapIntDouble(
+    contract = ts.PairIntDouble(
         doc="The contract quantity and recipe",
         tooltip="Contract quantity and recipe",
         uilabel="Contract",
-        default=(0.0,{})
+        default=(0,0.0)
     )
 
     commodities = ts.VectorString(
