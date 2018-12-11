@@ -31,7 +31,8 @@ class TimeSeriesInst(Institution):
 
     typesystem = ts.MapIntString(
         doc = "testing map int string", 
-        alias = ["typesystem", "int", "string"]
+        alias = ["typesystem", "int", "string"], 
+        default = {}
     )
 
     commodities = ts.VectorString(
