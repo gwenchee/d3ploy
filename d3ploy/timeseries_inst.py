@@ -29,10 +29,11 @@ class TimeSeriesInst(Institution):
     time series methods.
     """
 
-    typesystem = ts.MapIntString(
-        doc = "testing map int string", 
-        alias = ["typesystem", "int", "string"], 
-        default = {}
+    contract = ts.PairDoubleMapIntDouble(
+        doc="The contract quantity and recipe",
+        tooltip="Contract quantity and recipe",
+        uilabel="Contract",
+        default=(0.0,{})
     )
 
     commodities = ts.VectorString(

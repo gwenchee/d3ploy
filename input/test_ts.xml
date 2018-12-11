@@ -105,9 +105,6 @@
       <config>
         <TimeSeriesInst>
           <calc_method>ma</calc_method>
-          <typesystem>
-            <item><int>1</int> <string>hello</string></item>
-          </typesystem>
           <commodities>
             <val>POWER_reactor_1000</val>
             <val>freshfuel_source_3000</val>
