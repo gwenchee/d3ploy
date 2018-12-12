@@ -29,11 +29,11 @@ class TimeSeriesInst(Institution):
     time series methods.
     """
 
-    contract = ts.VectorString(
+    contract = ts.MapIntString(
         doc="The contract quantity and recipe",
         tooltip="Contract quantity and recipe",
-        uilabel="Contract"
-        default="hello"
+        uilabel="Contract",
+        default = {0,"helllo"}
     )
 
     commodities = ts.VectorString(
@@ -196,7 +196,7 @@ class TimeSeriesInst(Institution):
         in supply and demand and makes the the decision to deploy facilities or not.
         """
         time = self.context.time
-        print(self.typesystem)
+        print(self.contract)
         for commod, proto_cap in self.commodity_dict.items():
             if not bool(proto_cap):
                 raise ValueError(
