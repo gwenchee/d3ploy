@@ -33,8 +33,8 @@ class TimeSeriesInst(Institution):
         doc="The contract quantity and recipe",
         tooltip="Contract quantity and recipe",
         uilabel="Contract",
-        default = {0,"helllo"}
-    )
+        default={0,"hi"}
+)
 
     commodities = ts.VectorString(
         doc="A list of commodities that the institution will manage. " +
