@@ -29,13 +29,6 @@ class TimeSeriesInst(Institution):
     time series methods.
     """
 
-    contract = ts.MapIntString(
-        doc="The contract quantity and recipe",
-        tooltip="Contract quantity and recipe",
-        uilabel="Contract",
-        default={0,"hi"}
-)
-
     commodities = ts.VectorString(
         doc="A list of commodities that the institution will manage. " +
             "commodity_prototype_capacity format" + 
@@ -50,6 +43,14 @@ class TimeSeriesInst(Institution):
         "The equation should use `t' as the dependent variable",
         tooltip="Demand equation for driving commodity",
         uilabel="Demand Equation")
+
+    contract = ts.MapIntString(
+        doc="The contract quantity and recipe",
+        tooltip="Contract quantity and recipe",
+        uilabel="Contract",
+        default={0,"hi"}
+)
+
 
     calc_method = ts.String(
         doc="This is the calculated method used to determine the supply and demand " +
@@ -196,6 +197,7 @@ class TimeSeriesInst(Institution):
         in supply and demand and makes the the decision to deploy facilities or not.
         """
         time = self.context.time
+        print('CONTRACT')
         print(self.contract)
         for commod, proto_cap in self.commodity_dict.items():
             if not bool(proto_cap):
