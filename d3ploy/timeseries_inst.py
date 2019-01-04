@@ -48,7 +48,7 @@ class TimeSeriesInst(Institution):
         doc="The contract quantity and recipe",
         tooltip="Contract quantity and recipe",
         uilabel="Contract",
-        default={0,"hi"}
+        default={0:'hi'}
 )
 
 
