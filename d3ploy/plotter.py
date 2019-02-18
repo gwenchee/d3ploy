@@ -94,18 +94,18 @@ def plot_demand_supply_agent(all_dict, agent_dict, commod, test, demand_driven):
     marksize = 6
 
     if demand_driven:
-        ax2.semilogy(*zip(*sorted(dict_demand.items())),
+        ax2.plot(*zip(*sorted(dict_demand.items())),
                        label='Demand')
-        ax2.semilogy(*zip(*sorted(dict_calc_demand.items())),
+        ax2.plot(*zip(*sorted(dict_calc_demand.items())),
                       label='Calculated Demand')
     else:
-        ax2.semilogy(*zip(*sorted(dict_demand.items())),
+        ax2.plot(*zip(*sorted(dict_demand.items())),
                       label='Capacity')
-        ax2.semilogy(*zip(*sorted(dict_calc_demand.items())),
+        ax2.plot(*zip(*sorted(dict_calc_demand.items())),
                       label='Calculated Capacity')
-    ax2.semilogy(*zip(*sorted(dict_supply.items())),
+    ax2.plot(*zip(*sorted(dict_supply.items())),
                   label='Supply')
-    ax2.semilogy(*zip(*sorted(dict_calc_supply.items())),
+    ax2.plot(*zip(*sorted(dict_calc_supply.items())),
                  alpha=0.5,  label='Calculated Supply')
     ax2.grid()
     ax2.set_ylabel('Mass (kg)')
