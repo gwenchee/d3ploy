@@ -113,10 +113,17 @@
           <demand_std_dev>0.0</demand_std_dev>
           <record>1</record>
           <steps>1</steps>
+          <contracts>
+            <item>
+            <capacity>1</capacity>
+            <facility>reactor</facility>
+            </item>
+          </contracts>
         </TimeSeriesInst>
       </config>
       <name>source_inst</name>
     </institution>
     <name>SingleRegion</name>
   </region>
+      
 </simulation>
