@@ -44,21 +44,21 @@ class TimeSeriesInst(Institution):
         tooltip="Demand equation for driving commodity",
         uilabel="Demand Equation")
 
-    contract = ts.MapIntString(
-        doc="The contract quantity and recipe",
-        tooltip="Contract quantity and recipe",
-        uilabel="Contract",
-        default={0:'hi'}
-)
-
-
     calc_method = ts.String(
         doc="This is the calculated method used to determine the supply and demand " +
         "for the commodities of this institution. Currently this can be ma for " +
         "moving average, or arma for autoregressive moving average.",
         tooltip="Calculation method used to predict supply/demand",
-        uilabel="Calculation Method"
-    )
+        uilabel="Calculation Method",
+        default = "arma")        
+
+    contract = ts.MapIntString(
+        shape = [2,-1],
+        alias = ['contracts', 'capacity', 'facility'],
+        doc="The contract quantity and recipe",
+        tooltip="Contract quantity and recipe",
+        uilabel="Contract")
+
 
     record = ts.Bool(
         doc="Indicates whether or not the institution should record it's output to text " +
