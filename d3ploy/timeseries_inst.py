@@ -52,9 +52,8 @@ class TimeSeriesInst(Institution):
         uilabel="Calculation Method",
         default = "arma")        
 
-    contract = ts.MapIntString(
-        shape = [2,-1],
-        alias = ['contracts', 'capacity', 'facility'],
+    contract = ts.MapIntMapStringDouble(
+        alias = ['facility','facilityname',['parameters', 'capacity', 'pref']],
         doc="The contract quantity and recipe",
         tooltip="Contract quantity and recipe",
         uilabel="Contract")
