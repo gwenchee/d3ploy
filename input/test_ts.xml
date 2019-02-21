@@ -113,15 +113,21 @@
           <demand_std_dev>0.0</demand_std_dev>
           <record>1</record>
           <steps>1</steps>
+          <map>
+            <item>
+              <string>hello</string>
+              <double>2.0</double>
+            </item>
+          </map>
           <facility>
             <item>
               <facilityname>1</facilityname>
-              <parameters>
+              <param>
                 <item>
-                <capacity>one</capacity>
-                <pref>1.0</pref>
+                  <capacity>one</capacity>
+                  <pref>1.0</pref>
                 </item>
-              </parameters>
+              </param>
             </item>
           </facility>
         </TimeSeriesInst>

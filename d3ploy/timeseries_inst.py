@@ -49,16 +49,24 @@ class TimeSeriesInst(Institution):
         "for the commodities of this institution. Currently this can be ma for " +
         "moving average, or arma for autoregressive moving average.",
         tooltip="Calculation method used to predict supply/demand",
-        uilabel="Calculation Method",
-        default = "arma")        
-
-    contract = ts.MapIntMapStringDouble(
-        alias = ['facility','facilityname',['parameters', 'capacity', 'pref']],
+        uilabel="Calculation Method")        
+    
+    proof = ts.MapStringDouble(
+        alias = ['map','string','double']
+    )
+    
+    facility = ts.MapIntMapStringDouble(
+        alias = ['facility','facilityname',['param', 'capacity', 'pref']],
         doc="The contract quantity and recipe",
         tooltip="Contract quantity and recipe",
         uilabel="Contract")
-
-
+    """
+    facility = ts.PairDoubleString(
+        alias = ['facility', 'capacity', 'pref'],
+        doc="The contract quantity and recipe",
+        tooltip="Contract quantity and recipe",
+        uilabel="Contract")
+    """
     record = ts.Bool(
         doc="Indicates whether or not the institution should record it's output to text " +
         "file outputs. The output files match the name of the demand commodity of the " +
