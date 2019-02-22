@@ -50,16 +50,17 @@ class TimeSeriesInst(Institution):
         "moving average, or arma for autoregressive moving average.",
         tooltip="Calculation method used to predict supply/demand",
         uilabel="Calculation Method")        
-    
-    proof = ts.MapStringDouble(
-        alias = ['map','string','double']
-    )
+
     
     facility = ts.MapIntMapStringDouble(
-        alias = ['facility','facilityname',['param', 'capacity', 'pref']],
+        alias = ['facility','facilityname',['param','capacity', 'pref']],
         doc="The contract quantity and recipe",
         tooltip="Contract quantity and recipe",
         uilabel="Contract")
+
+    contract = ts.MapStringDouble(
+        alias = ['map','string','double']
+    )
     """
     facility = ts.PairDoubleString(
         alias = ['facility', 'capacity', 'pref'],
