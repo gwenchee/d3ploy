@@ -39,6 +39,24 @@ class SupplyDrivenDeploymentInst(Institution):
         uitype="oneOrMore"
     )
 
+    facility_commod = ts.MapStringString(
+        doc = "A map of facilities and each of their corresponding" + 
+              " output commodities",
+        tooltip = "Map of facilities and output commodities in the " + 
+                  "institution",
+        alias = ['facility_commod','facility','commod'],
+        uilabel = "Facility and Commodities"  
+    )
+
+    facility_capacity = ts.MapStringDouble(
+        doc = "A map of facilities and each of their corresponding" + 
+              " capacities",
+        tooltip = "Map of facilities and capacities in the " + 
+                  "institution",
+        alias = ['facility_capacity','facility','capacity'],
+        uilabel = "Facility and Capacities"     
+    )
+
     calc_method = ts.String(
         doc="This is the calculated method used to determine " +
         "the supply and capacity for the commodities of " +
@@ -165,11 +183,27 @@ class SupplyDrivenDeploymentInst(Institution):
                                                     'constraint': float(z[5])}})
         return commodity_dict
 
+    def build_dict(self,facility_commod,facility_capacity): 
+        facility_dict = {}
+        commodity_dict = {} 
+        for key, val in facility_capacity.items(): 
+            facility_dict[key] = {} 
+            facility_dict[key] = {'cap':val}
+        for key, val in facility_commod.items(): 
+            if val not in commodity_dict.keys():
+                commodity_dict[val] = {} 
+            if key in facility_dict.keys(): 
+                commodity_dict[val].update({key:facility_dict[key]})
+        print('commoddi',commodity_dict)
+        return commodity_dict    
+
     def enter_notify(self):
         super().enter_notify()
         if self.fresh:
             # convert list of strings to dictionary
             self.commodity_dict = self.parse_commodities(self.commodities)
+            print('original',self.commodity_dict)
+            self.hello = self.build_dict(self.facility_commod,self.facility_capacity)
             for commod in self.commodity_dict:
                 # swap supply and demand for supply_inst
                 # change demand into capacity
