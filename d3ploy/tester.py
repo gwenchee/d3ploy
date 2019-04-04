@@ -151,20 +151,14 @@ def norm(all_dict):
 
     dict_demand = all_dict['dict_demand']
     dict_supply = all_dict['dict_supply']
-
-    print('DICTDEMAND',dict_demand)
-    print('DICTSUPPLY',dict_supply)
-
-    print('lenDICTDEMAND',len(dict_demand))
-    print('lenDICTSUPPLY',len(dict_supply))   
-
     n = len(dict_demand)
     tot = 0
     start = int(list(dict_demand.keys())[0])
-    print('start',start)
-    print('end',n+1)
     for i in range(start,start+n): 
-        tot += (dict_demand[i] - dict_supply[i])**2
+        try: 
+            tot += (dict_demand[i] - dict_supply[i])**2
+        except KeyError:
+            tot += 0 
     norm = np.sqrt(tot)
     return norm 
 
@@ -302,17 +296,17 @@ def best_calc_method(in_dict, maximum):
 
 def metrics(all_dict,metric_dict,calc_method,commod,demand_driven):
     # check if dictionary exists if not initialize
-    value = metric_dict.get(commod+'_residuals',0)
+    value = metric_dict.get(commod+'_undersupply',0)
     if value == 0: 
-        metric_dict[commod+'_residuals'] = {}
-        metric_dict[commod+'_chi2'] = {}
+        #metric_dict[commod+'_residuals'] = {}
+        #metric_dict[commod+'_chi2'] = {}
         metric_dict[commod+'_undersupply'] = {}
-        metric_dict[commod+'_norm'] = {}
+        #metric_dict[commod+'_norm'] = {}
 
-    metric_dict[commod+'_residuals'][calc_method] = residuals(all_dict)
-    metric_dict[commod+'_chi2'][calc_method] = chi_goodness_test(all_dict)
+    #metric_dict[commod+'_residuals'][calc_method] = residuals(all_dict)
+    #metric_dict[commod+'_chi2'][calc_method] = chi_goodness_test(all_dict)
     metric_dict[commod+'_undersupply'][calc_method] = supply_under_demand(all_dict, demand_driven)
-    metric_dict[commod+'_norm'][calc_method] = norm(all_dict)
+    #metric_dict[commod+'_norm'][calc_method] = norm(all_dict)
 
     return metric_dict
 
