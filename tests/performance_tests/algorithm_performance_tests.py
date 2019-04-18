@@ -38,8 +38,7 @@ ENV['PYTHONPATH'] = ".:" + ENV.get('PYTHONPATH', '')
 
 
 ##### List of types of calc methods that are to be tested #####
-calc_methods = ["ma", "arma", "arch", "poly",
-                "exp_smoothing", "holt_winters", "fft"]
+calc_methods = ["ma","fft"]
 
 scenario_template = {
         "simulation": {
@@ -52,7 +51,7 @@ scenario_template = {
                     {"lib": "d3ploy.demand_driven_deployment_inst", "name": "DemandDrivenDeploymentInst"}
                 ]
             },
-            "control": {"duration": "100", "startmonth": "1", "startyear": "2000"},
+            "control": {"duration": "30", "startmonth": "1", "startyear": "2000"},
             "recipe": [
                 {
                     "basis": "mass",
@@ -66,7 +65,7 @@ scenario_template = {
                 }
         ]}}
 
-
+"""
 ######################################SCENARIO 1################################################
 # scenario 1, source -> sink
 scenario_1_input = {}
@@ -157,18 +156,18 @@ for calc_method in calc_methods:
     df.to_csv('scenario_1_output.csv')
 
 ##########################################################################################
-
+"""
 ######################################SCENARIO 2##########################################
 # scenario 2, source -> reactor (cycle time = 1, refuel time = 0) -> sink
 scenario_2_input = {}
-demand_eq = "1000*t"
+demand_eq = "1*t"
 
 for calc_method in calc_methods:
     scenario_2_input[calc_method] = copy.deepcopy(scenario_template)
     scenario_2_input[calc_method]["simulation"].update({"facility": [{
                 "config": {"Source": {"outcommod": "fuel",
                                       "outrecipe": "fresh_uox",
-                                      "throughput": "3000"}},
+                                      "throughput": "1"}},
                 "name": "source"
             },
                 {
@@ -179,7 +178,7 @@ for calc_method in calc_methods:
                 {
                 "config": {
                     "Reactor": {
-                        "assem_size": "1000",
+                        "assem_size": "1",
                         "cycle_time": "1",
                         "fuel_incommods": {"val": "fuel"},
                         "fuel_inrecipes": {"val": "fresh_uox"},
@@ -187,7 +186,7 @@ for calc_method in calc_methods:
                         "fuel_outrecipes": {"val": "spent_uox"},
                         "n_assem_batch": "1",
                         "n_assem_core": "3",
-                        "power_cap": "1000",
+                        "power_cap": "1",
                         "refuel_time": "0",
                     }
                 },
@@ -207,8 +206,8 @@ for calc_method in calc_methods:
                             }, 
                             "facility_capacity": {
                             "item": [
-                                {"capacity": "3000", "facility": "source"},
-                                {"capacity": "1000", "facility": "reactor"}
+                                {"capacity": "1", "facility": "source"},
+                                {"capacity": "1", "facility": "reactor"}
                             ]
                             }, 
                             "driving_commod": "POWER",
@@ -248,8 +247,8 @@ for calc_method in calc_methods:
     agent_entry_dict['power'] = tester.get_agent_dict(output_file,['reactor'])
     agent_entry_dict['fuel'] = tester.get_agent_dict(output_file,['source'])
     # plots demand, supply, calculated demand, calculated supply for the scenario for each calc method
-    plotter.plot_demand_supply_agent(all_dict_power,agent_entry_dict['power'], 'power', name+'_power', True, False,False)
-    plotter.plot_demand_supply_agent(all_dict_fuel, agent_entry_dict['fuel'],'fuel', name+'_fuel', True, False,False)
+    plotter.plot_demand_supply_agent(all_dict_power,agent_entry_dict['power'], 'power', name+'_power', True, False,True)
+    plotter.plot_demand_supply_agent(all_dict_fuel, agent_entry_dict['fuel'],'fuel', name+'_fuel', True, False,True)
 
     metric_dict = tester.metrics(all_dict_power,metric_dict,calc_method,'power',True)
     metric_dict = tester.metrics(all_dict_fuel,metric_dict,calc_method,'fuel',True)
@@ -257,7 +256,7 @@ for calc_method in calc_methods:
     df = pd.DataFrame(metric_dict)
     df.to_csv('scenario_2_output.csv')
 
-
+"""
 ######################################SCENARIO 3##########################################
 # scenario 3, source -> reactor (cycle time = 3, refuel time = 1) -> sink
 scenario_3_input = {}
@@ -459,3 +458,4 @@ for calc_method in calc_methods:
     df.to_csv('scenario_4_output.csv')
 
 
+"""
