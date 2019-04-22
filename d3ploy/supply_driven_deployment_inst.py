@@ -20,6 +20,7 @@ import d3ploy.solver as solver
 import d3ploy.NO_solvers as no
 import d3ploy.DO_solvers as do
 import d3ploy.ML_solvers as ml
+import d3ploy.deployment_inst as di
 
 CALC_METHODS = {}
 
