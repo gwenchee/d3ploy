@@ -157,8 +157,6 @@ class DemandDrivenDeploymentInst(Institution):
         super().__init__(*args, **kwargs)
         self.commodity_supply = {}
         self.commodity_demand = {}
-        self.rev_commodity_supply = {}
-        self.rev_commodity_demand = {}
         self.fresh = True
         CALC_METHODS['ma'] = no.predict_ma
         CALC_METHODS['arma'] = no.predict_arma

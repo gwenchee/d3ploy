@@ -151,8 +151,6 @@ class SupplyDrivenDeploymentInst(Institution):
         super().__init__(*args, **kwargs)
         self.commodity_capacity = {}
         self.commodity_supply = {}
-        self.rev_commodity_capacity = {}
-        self.rev_commodity_supply = {}
         self.fresh = True
         CALC_METHODS['ma'] = no.predict_ma
         CALC_METHODS['arma'] = no.predict_arma
