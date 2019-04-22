@@ -128,6 +128,15 @@ class DemandDrivenDeploymentInst(Institution):
         default=0
     )
 
+    supply_buffer = ts.MapStringDouble(
+        doc="The percent above demand the supply should hit. In decimal" +
+            "form",
+        tooltip="Buffer Amount in percent decimal form.",
+        alias=['supply_buffer', 'commod', 'buffer'],
+        uilabel="Supply Buffer",
+        default={}
+    )
+
     demand_std_dev = ts.Double(
         doc="The standard deviation adjustment for the demand side.",
         tooltip="The standard deviation adjustment for the demand side.",
@@ -286,7 +295,7 @@ class DemandDrivenDeploymentInst(Institution):
         if time not in self.commodity_supply[commod]:
             self.commodity_supply[commod][time] = 0.0
         supply = self.predict_supply(commod)
-        demand = self.predict_demand(commod, time)
+        demand = self.predict_demand(commod, time)*self.supply_buffer[commod]
         diff = supply - demand
         return diff, supply, demand
 
