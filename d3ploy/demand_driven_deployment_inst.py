@@ -132,7 +132,7 @@ class DemandDrivenDeploymentInst(Institution):
         doc="The percent above demand the supply should hit. In decimal" +
             "form",
         tooltip="Buffer Amount in percent decimal form.",
-        uilabel="Supply Buffer"
+        uilabel="Supply Buffer",
         default={}
     )
 
