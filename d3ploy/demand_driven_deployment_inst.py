@@ -152,8 +152,7 @@ class DemandDrivenDeploymentInst(Institution):
         super().__init__(*args, **kwargs)
         self.commodity_supply = {}
         self.commodity_demand = {}
-        self.rev_commodity_supply = {}
-        self.rev_commodity_demand = {}
+        self.installed_cap = {}
         self.fresh = True
         CALC_METHODS['ma'] = no.predict_ma
         CALC_METHODS['arma'] = no.predict_arma
@@ -183,7 +182,10 @@ class DemandDrivenDeploymentInst(Institution):
                 self.facility_pref,
                 self.facility_constraintcommod,
                 self.facility_constraintval)
+            print('CD',self.commodity_dict)
             commod_list = list(self.commodity_dict.keys())
+            for commod in commod_list:
+                self.installed_cap[commod] = 0.
             for key, val in self.commodity_dict.items():
                 for key2, val2 in val.items():
                     if val2['constraint_commod'] != '0':
@@ -206,6 +208,7 @@ class DemandDrivenDeploymentInst(Institution):
         in supply and demand and makes the the decision to deploy facilities or not.
         """
         time = self.context.time
+        print('TIME',time)
         for commod, proto_dict in self.commodity_dict.items():
 
             diff, supply, demand = self.calc_diff(commod, time)
@@ -218,6 +221,11 @@ class DemandDrivenDeploymentInst(Institution):
                 for proto, num in deploy_dict.items():
                     for i in range(num):
                         self.context.schedule_build(self, proto)
+                # Update installed capacity dict 
+                for proto, num in deploy_dict.items():
+                    self.installed_cap[commod] += self.commodity_dict[commod][proto]['cap']*num
+                print('INSTAL',self.installed_cap)
+                print('SUPPLY',self.commodity_supply)
             if self.record:
                 out_text = "Time " + str(time) + \
                     " Deployed " + str(len(self.children))
