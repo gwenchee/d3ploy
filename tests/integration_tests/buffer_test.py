@@ -147,7 +147,7 @@ yesbuf_template["simulation"].update({"region": {
                 },
                 "supply_buffer": {
                     "item": [
-                        {"commod": "POWER", "buffer": "0.2"}
+                        {"commod": "POWER", "buffer": "p0.2"}
                     ]
                 },
                 "demand_eq": "3*t",
@@ -226,7 +226,7 @@ nobuf_template2["simulation"].update({"region": {
                     },
                     "supply_buffer": {
                         "item": [
-                            {"commod": "POWER", "buffer": "0.2"}
+                            {"commod": "POWER", "buffer": "p0.2"}
                         ]
                     },
                     "demand_eq": "3*t",
@@ -277,7 +277,7 @@ yesbuf_template2["simulation"].update({"region": {
                     },
                     "supply_buffer": {
                         "item": [
-                            {"commod": "POWER", "buffer": "0.2"}
+                            {"commod": "POWER", "buffer": "p0.2"}
                         ]
                     },
                     "demand_eq": "3*t",
@@ -294,7 +294,7 @@ yesbuf_template2["simulation"].update({"region": {
                     "capacity_std_dev": "1.0",
                     "facility_capacity": {"item": {"capacity": "10", "facility": "sink"}},
                     "facility_commod": {"item": {"commod": "spent_uox", "facility": "sink"}},
-                    "capacity_buffer": {"item": {"commod": "spent_uox", "buffer": "0.2"}},
+                    "capacity_buffer": {"item": {"commod": "spent_uox", "buffer": "p0.2"}},
                     "record": "1",
                     "steps": "1"
                 }
@@ -402,8 +402,8 @@ yesbuf_template3["simulation"].update({"region": {
                 },
                 "supply_buffer": {
                     "item": [
-                        {"commod": "POWER", "buffer": "0.2"},
-                        {"commod": "fuel", "buffer": "0.2"}
+                        {"commod": "POWER", "buffer": "p0.2"},
+                        {"commod": "fuel", "buffer": "p0.2"}
                     ]
                 },
                 "demand_eq": "3*t",

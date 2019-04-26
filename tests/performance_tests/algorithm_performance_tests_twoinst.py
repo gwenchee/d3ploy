@@ -109,7 +109,7 @@ def tests(scenario):
             "driving_commod": "POWER", 
             "facility_capacity": {"item": {"capacity": "3000", "facility": "source"}}, 
             "facility_commod": {"item": {"commod": "fuel", "facility": "source"}}, 
-            "supply_buffer":{"item": {"commod": "fuel", "buffer": "0.20"}}, 
+            "supply_buffer":{"item": {"commod": "fuel", "buffer": "p0.20"}}, 
             "record": "1", 
             "steps": "1"
             }
@@ -124,7 +124,7 @@ def tests(scenario):
             "driving_commod": "POWER", 
             "facility_capacity": {"item": {"capacity": "1000", "facility": "reactor"}}, 
             "facility_commod": {"item": {"commod": "POWER", "facility": "reactor"}}, 
-            "supply_buffer":{"item": {"commod": "POWER", "buffer": "0.20"}}, 
+            "supply_buffer":{"item": {"commod": "POWER", "buffer": "p0.20"}}, 
             "record": "1", 
             "steps": "1"
             }
@@ -241,7 +241,7 @@ def tests(scenario):
             "driving_commod": "POWER", 
             "facility_capacity": {"item": {"capacity": "3000", "facility": "source"}}, 
             "facility_commod": {"item": {"commod": "fuel", "facility": "source"}}, 
-            "supply_buffer":{"item": {"commod": "fuel", "buffer": "0.5"}}, 
+            "supply_buffer":{"item": {"commod": "fuel", "buffer": "p0.5"}}, 
             "record": "1", 
             "steps": "1"
             }
@@ -256,7 +256,7 @@ def tests(scenario):
             "driving_commod": "POWER", 
             "facility_capacity": {"item": {"capacity": "1000", "facility": "reactor"}}, 
             "facility_commod": {"item": {"commod": "POWER", "facility": "reactor"}}, 
-            "supply_buffer":{"item": {"commod": "POWER", "buffer": "0.6"}}, 
+            "supply_buffer":{"item": {"commod": "POWER", "buffer": "n10000"}}, 
             "record": "1", 
             "steps": "1"
             }
@@ -373,7 +373,7 @@ def tests(scenario):
             "driving_commod": "POWER",
             "facility_capacity": {"item": {"capacity": "3000", "facility": "source"}},
             "facility_commod": {"item": {"commod": "fuel", "facility": "source"}},
-            "supply_buffer":{"item": {"commod": "fuel", "buffer": "0.30"}},
+            "supply_buffer":{"item": {"commod": "fuel", "buffer": "p0.30"}},
             "record": "1",
             "steps": "1"
             }
@@ -388,7 +388,7 @@ def tests(scenario):
             "driving_commod": "POWER",
             "facility_capacity": {"item": {"capacity": "1000", "facility": "reactor"}},
             "facility_commod": {"item": {"commod": "POWER", "facility": "reactor"}},
-            "supply_buffer":{"item": {"commod": "POWER", "buffer": "0.20"}},
+            "supply_buffer":{"item": {"commod": "POWER", "buffer": "p0.20"}},
             "record": "1",
             "steps": "1"
             }
@@ -517,7 +517,7 @@ def tests(scenario):
             "driving_commod": "POWER", 
             "facility_capacity": {"item": {"capacity": "3000", "facility": "source"}}, 
             "facility_commod": {"item": {"commod": "fuel", "facility": "source"}}, 
-            "supply_buffer":{"item": {"commod": "fuel", "buffer": "0.20"}}, 
+            "supply_buffer":{"item": {"commod": "fuel", "buffer": "p0.20"}}, 
             "record": "1", 
             "steps": "1"
             }
@@ -532,7 +532,7 @@ def tests(scenario):
             "driving_commod": "POWER", 
             "facility_capacity": {"item": {"capacity": "1000", "facility": "reactor"}}, 
             "facility_commod": {"item": {"commod": "POWER", "facility": "reactor"}}, 
-            "supply_buffer":{"item": {"commod": "POWER", "buffer": "0.20"}}, 
+            "supply_buffer":{"item": {"commod": "POWER", "buffer": "p0.20"}}, 
             "record": "1", 
             "steps": "1"
             }
@@ -704,7 +704,7 @@ def tests(scenario):
             "driving_commod": "POWER", 
             "facility_capacity": {"item": {"capacity": "3000", "facility": "source"}}, 
             "facility_commod": {"item": {"commod": "fuel", "facility": "source"}}, 
-            "supply_buffer":{"item": {"commod": "fuel", "buffer": "0.20"}}, 
+            "supply_buffer":{"item": {"commod": "fuel", "buffer": "p0.20"}}, 
             "record": "1", 
             "steps": "1"
             }
@@ -719,7 +719,7 @@ def tests(scenario):
             "driving_commod": "POWER", 
             "facility_capacity": {"item": {"capacity": "1000", "facility": "reactor"}}, 
             "facility_commod": {"item": {"commod": "POWER", "facility": "reactor"}}, 
-            "supply_buffer":{"item": {"commod": "POWER", "buffer": "0.20"}}, 
+            "supply_buffer":{"item": {"commod": "POWER", "buffer": "p0.20"}}, 
             "record": "1", 
             "steps": "1"
             }
@@ -932,7 +932,7 @@ def tests(scenario):
             "driving_commod": "POWER", 
             "facility_capacity": {"item": {"capacity": "3000", "facility": "source"}}, 
             "facility_commod": {"item": {"commod": "fuel", "facility": "source"}}, 
-            "supply_buffer":{"item": {"commod": "fuel", "buffer": "0.50"}}, 
+            "supply_buffer":{"item": {"commod": "fuel", "buffer": "p0.50"}}, 
             "record": "1", 
             "steps": "1"
             }
@@ -947,7 +947,7 @@ def tests(scenario):
             "driving_commod": "POWER", 
             "facility_capacity": {"item": {"capacity": "1000", "facility": "reactor"}}, 
             "facility_commod": {"item": {"commod": "POWER", "facility": "reactor"}}, 
-            "supply_buffer":{"item": {"commod": "POWER", "buffer": "0.60"}}, 
+            "supply_buffer":{"item": {"commod": "POWER", "buffer": "p0.60"}}, 
             "record": "1", 
             "steps": "1"
             }
