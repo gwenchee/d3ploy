@@ -256,7 +256,7 @@ def tests(scenario):
             "driving_commod": "POWER", 
             "facility_capacity": {"item": {"capacity": "1000", "facility": "reactor"}}, 
             "facility_commod": {"item": {"commod": "POWER", "facility": "reactor"}}, 
-            "supply_buffer":{"item": {"commod": "POWER", "buffer": "n10000"}}, 
+            "supply_buffer":{"item": {"commod": "POWER", "buffer": "p0.6"}}, 
             "record": "1", 
             "steps": "1"
             }
