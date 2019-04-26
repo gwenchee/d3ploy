@@ -257,6 +257,7 @@ def tests(scenario):
             "facility_capacity": {"item": {"capacity": "1000", "facility": "reactor"}}, 
             "facility_commod": {"item": {"commod": "POWER", "facility": "reactor"}}, 
             "supply_buffer":{"item": {"commod": "POWER", "buffer": "p0.6"}}, 
+            "installed_cap":"1",
             "record": "1", 
             "steps": "1"
             }
