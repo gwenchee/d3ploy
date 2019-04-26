@@ -185,15 +185,15 @@ class DemandDrivenDeploymentInst(Institution):
             print('CD',self.commodity_dict)
             commod_list = list(self.commodity_dict.keys())
             for commod in commod_list:
-                self.installed_cap[commod] = 0.
+                self.installed_cap[commod] = defaultdict(float)
             for key, val in self.commodity_dict.items():
                 for key2, val2 in val.items():
                     if val2['constraint_commod'] != '0':
                         commod_list.append(val2['constraint_commod'])
-            commod_list = list(set(commod_list))
+            self.commod_list = list(set(commod_list))
             self.buffer_dict = di.build_buffer_dict(self.supply_buffer,
-                                                    commod_list)
-            for commod in commod_list:
+                                                    self.commod_list)
+            for commod in self.commod_list:
                 lib.TIME_SERIES_LISTENERS["supply" +
                                           commod].append(self.extract_supply)
                 lib.TIME_SERIES_LISTENERS["demand" +
@@ -218,14 +218,22 @@ class DemandDrivenDeploymentInst(Institution):
             if diff < 0:
                 deploy_dict = solver.deploy_solver(
                     self.commodity_supply, self.commodity_dict, commod, diff, time)
+                print('DD',deploy_dict)
                 for proto, num in deploy_dict.items():
                     for i in range(num):
                         self.context.schedule_build(self, proto)
                 # Update installed capacity dict 
                 for proto, num in deploy_dict.items():
-                    self.installed_cap[commod] += self.commodity_dict[commod][proto]['cap']*num
-                print('INSTAL',self.installed_cap)
-                print('SUPPLY',self.commodity_supply)
+                    if time == 0:
+                        self.installed_cap[commod][time] = self.commodity_dict[commod][proto]['cap']*num
+                    else:
+                        self.installed_cap[commod][time] = self.installed_cap[commod][time-1] + self.commodity_dict[commod][proto]['cap']*num
+            else: 
+                if time == 0:
+                    self.installed_cap[commod][time] = 0
+                else:
+                    self.installed_cap[commod][time] = self.installed_cap[commod][time-1]
+
             if self.record:
                 out_text = "Time " + str(time) + \
                     " Deployed " + str(len(self.children))
@@ -235,6 +243,8 @@ class DemandDrivenDeploymentInst(Institution):
                     str(self.commodity_demand[commod][time]) + "\n"
                 with open(commod + ".txt", 'a') as f:
                     f.write(out_text)
+        print('INSTAL',self.installed_cap)
+        print('SUPPLY',self.commodity_supply)
 
     def calc_diff(self, commod, time):
         """
