@@ -107,6 +107,14 @@ class DemandDrivenDeploymentInst(Institution):
         default="POWER"
     )
 
+    installed_cap = ts.Bool(
+        doc = "Indicates whether or not to use installed capacity as the supply rather than" +
+              "the amount of that commodity in the simulation.",
+        tooltip = "Boolean to indicate wither or not to use installed capacity as supply",
+        uilabel="installed cap", 
+        default = False
+    )
+
     steps = ts.Int(
         doc="The number of timesteps forward to predict supply and demand",
         tooltip="The number of predicted steps forward",
