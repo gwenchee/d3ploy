@@ -126,8 +126,9 @@
             </item>
           </facility_capacity>
           <demand_eq>1000</demand_eq>
-          <record>1</record>
+          <record>0</record>
           <steps>1</steps>
+          <installed_cap>1</installed_cap>
         </DemandDrivenDeploymentInst>
       </config>
       <name>source_inst</name>
