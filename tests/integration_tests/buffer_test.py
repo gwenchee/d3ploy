@@ -147,7 +147,7 @@ yesbuf_template["simulation"].update({"region": {
                 },
                 "supply_buffer": {
                     "item": [
-                        {"commod": "POWER", "buffer": "p0.2"}
+                        {"commod": "POWER", "buffer": "0.2"}
                     ]
                 },
                 "demand_eq": "3*t",
