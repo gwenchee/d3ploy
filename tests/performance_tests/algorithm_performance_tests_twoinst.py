@@ -240,7 +240,8 @@ scenario_3_input["simulation"].update({"region": {   "config": {"NullRegion": "\
     "driving_commod": "POWER", 
     "facility_capacity": {"item": {"capacity": "3000", "facility": "source"}}, 
     "facility_commod": {"item": {"commod": "fuel", "facility": "source"}}, 
-    "supply_buffer":{"item": {"commod": "fuel", "buffer": "0.5"}}, 
+    #"supply_buffer":{"item": {"commod": "fuel", "buffer": "0.5"}}, 
+    "installed_cap":"1",
     "record": "1", 
     "steps": "1"
     }
@@ -255,7 +256,8 @@ scenario_3_input["simulation"].update({"region": {   "config": {"NullRegion": "\
     "driving_commod": "POWER", 
     "facility_capacity": {"item": {"capacity": "1000", "facility": "reactor"}}, 
     "facility_commod": {"item": {"commod": "POWER", "facility": "reactor"}}, 
-    "supply_buffer":{"item": {"commod": "POWER", "buffer": "0.6"}}, 
+    #"supply_buffer":{"item": {"commod": "POWER", "buffer": "0.6"}}, 
+    "installed_cap":"1",
     "record": "1", 
     "steps": "1"
     }
