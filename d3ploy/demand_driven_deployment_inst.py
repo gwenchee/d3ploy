@@ -228,26 +228,18 @@ class DemandDrivenDeploymentInst(Institution):
         in supply and demand and makes the the decision to deploy facilities or not.
         """
         time = self.context.time
-        print('time',time)
-        #print('supply',self.commodity_supply)
-        #print('installed cap',self.installed_capacity)
         for commod, proto_dict in self.commodity_dict.items():
-            print('COMMOD',commod)
             diff, supply, demand = self.calc_diff(commod, time)
             lib.record_time_series('calc_supply' + commod, self, supply)
             lib.record_time_series('calc_demand' + commod, self, demand)
-            print('supply',supply)
-            print('demand',demand)
 
             if diff < 0:
                 if self.installed_cap:
-                    print('in')
                     deploy_dict = solver.deploy_solver(
                         self.installed_capacity, self.commodity_dict, commod, diff, time)
                 else:
                     deploy_dict = solver.deploy_solver(
                         self.commodity_supply, self.commodity_dict, commod, diff, time)
-                print('DD',deploy_dict)
                 for proto, num in deploy_dict.items():
                     for i in range(num):
                         self.context.schedule_build(self, proto)
@@ -265,7 +257,6 @@ class DemandDrivenDeploymentInst(Institution):
                 else:
                     self.installed_capacity[commod][time+1] = self.installed_capacity[commod][time]
 
-            
             if self.record:
                 out_text = "Time " + str(time) + \
                     " Deployed " + str(len(self.children))
@@ -275,6 +266,7 @@ class DemandDrivenDeploymentInst(Institution):
                     str(self.commodity_demand[commod][time]) + "\n"
                 with open(commod + ".txt", 'a') as f:
                     f.write(out_text)
+
 
     def calc_diff(self, commod, time):
         """
@@ -313,18 +305,23 @@ class DemandDrivenDeploymentInst(Institution):
         return diff, supply, demand
 
     def predict_supply(self, commod):
+        if self.installed_cap: 
+            input = self.installed_capacity[commod]
+        else: 
+            input = self.commodity_supply[commod]
+
         if self.calc_method in ['arma', 'ma', 'arch']:
-            supply = CALC_METHODS[self.calc_method](self.commodity_supply[commod],
+            supply = CALC_METHODS[self.calc_method](input,
                                                     steps=self.steps,
                                                     std_dev=self.supply_std_dev,
                                                     back_steps=self.back_steps)
         elif self.calc_method in ['poly', 'exp_smoothing', 'holt_winters', 'fft']:
-            supply = CALC_METHODS[self.calc_method](self.commodity_supply[commod],
+            supply = CALC_METHODS[self.calc_method](input,
                                                     back_steps=self.back_steps,
                                                     degree=self.degree)
         elif self.calc_method in ['sw_seasonal']:
             supply = CALC_METHODS[self.calc_method](
-                self.commodity_supply[commod], period=self.degree)
+                input, period=self.degree)
         else:
             raise ValueError(
                 'The input calc_method is not valid. Check again.')
