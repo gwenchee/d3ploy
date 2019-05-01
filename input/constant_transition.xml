@@ -9,6 +9,10 @@
         <lib>cycamore</lib>
         <name>DeployInst</name>
     </spec>
+      <spec>
+          <lib>agents</lib>
+          <name>NullInst</name>
+      </spec>
     <spec>
       <lib>cycamore</lib>
       <name>Source</name>
@@ -93,8 +97,47 @@
         <refuel_time>1</refuel_time>
       </Reactor>
     </config>
-    <name>reactor</name>
+    <name>reactor2</name>
   </facility>
+
+  <facility>
+    <config>
+      <Reactor>
+        <assem_size>1000</assem_size>
+        <cycle_time>11</cycle_time>
+        <fuel_incommods>
+          <val>fuel</val>
+        </fuel_incommods>
+        <fuel_inrecipes>
+          <val>fresh_uox</val>
+        </fuel_inrecipes>
+        <fuel_outcommods>
+          <val>spent_fuel</val>
+        </fuel_outcommods>
+        <fuel_outrecipes>
+          <val>spent_uox</val>
+        </fuel_outrecipes>
+        <n_assem_batch>1</n_assem_batch>
+        <n_assem_core>3</n_assem_core>
+        <power_cap>1000</power_cap>
+        <refuel_time>1</refuel_time>
+      </Reactor>
+    </config>
+    <name>reactor3</name>
+  </facility>
+
+<facility>
+    <name>lwrsink</name>
+    <config>
+        <Sink>
+            <in_commods>
+                <val>spent_fuel</val>
+            </in_commods>
+            <max_inv_size>1e20</max_inv_size>
+        </Sink>
+    </config>
+</facility>
+
 
   <recipe>
     <basis>mass</basis>
@@ -126,6 +169,22 @@
       <NullRegion>
       </NullRegion>
     </config>
+
+    <institution>
+        <config>
+            <NullInst/>
+        </config>
+        <initialfacilitylist>
+
+        <entry>
+          <number>1</number>
+          <prototype>lwrsink</prototype>
+        </entry>
+           
+        </initialfacilitylist>
+        <name>sink_source_facilities</name>
+    </institution>
+
     <institution>
         <name>reactor_inst</name>
         <config>
@@ -187,7 +246,7 @@
           <calc_method>ma</calc_method>
           <facility_commod>
             <item>
-              <facility>reactor</facility>
+              <facility>reactor2</facility>
               <commod>POWER</commod>
             </item>
             <item>
@@ -197,7 +256,7 @@
           </facility_commod>
           <facility_capacity>
             <item>
-              <facility>reactor</facility>
+              <facility>reactor2</facility>
               <capacity>1000</capacity>
             </item>
             <item>
@@ -207,7 +266,7 @@
           </facility_capacity>
           <facility_pref>
             <item>
-            <facility>reactor</facility>
+            <facility>reactor2</facility>
             <pref>t-2</pref>
             </item>
           </facility_pref>
