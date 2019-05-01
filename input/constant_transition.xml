@@ -273,7 +273,6 @@
           <demand_eq>10000</demand_eq>
           <record>1</record>
           <steps>1</steps>
-          <installed_cap>0</installed_cap>
           <buffer_type>
           <item>
             <commod>POWER</commod>
