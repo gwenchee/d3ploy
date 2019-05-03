@@ -109,7 +109,6 @@ def plot_demand_supply_agent(all_dict, agent_dict, commod, test,
     dict_calc_supply = all_dict['dict_calc_supply']
     f, (ax1, ax2) = plt.subplots(2, 1, sharex='all',
                                  gridspec_kw={'height_ratios': [1, 3]})
-
     top_indx = True
     for key, val in agent_dict.items():
         x, y = get_xy_from_dict(val)
@@ -123,7 +122,7 @@ def plot_demand_supply_agent(all_dict, agent_dict, commod, test,
                     bottom=prev, edgecolor='none')
             prev = np.add(prev, y)
     ax1.grid()
-    ax1.legend()
+    ax1.legend(loc='upper center', bbox_to_anchor=(1.20, 1.0))
     ax1.set_xlabel('Time (month timestep)')
     ax1.set_ylabel('agents')
 
@@ -176,8 +175,15 @@ def plot_demand_supply_agent(all_dict, agent_dict, commod, test,
     else:
         ax2.set_ylabel('Mass (Kg)', fontsize=14)
     handles, labels = ax2.get_legend_handles_labels()
-    ax2.legend(handles, labels, fontsize=11, loc='upper left',
-               fancybox=True)
+    ax2.legend(
+        handles,
+        labels,
+        fontsize=11,
+        loc='upper center',
+        bbox_to_anchor=(
+            1.20,
+            1.0),
+        fancybox=True)
 
     ax1.set_title('Supply, Demand and prototypes for %s' % test)
     plt.savefig(test, dpi=300, bbox_inches='tight')
@@ -257,4 +263,4 @@ def get_xy_from_dict(dictionary):
     x = np.arange(maxindx)
     for key, val in dictionary.items():
         y[key] = val
-    return x, y
+    return x,y

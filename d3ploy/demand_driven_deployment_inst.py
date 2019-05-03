@@ -78,6 +78,23 @@ class DemandDrivenDeploymentInst(Institution):
         default={}
     )
 
+    initial_condition = ts.MapStringDouble(
+        doc="A map of facilities and the number of them to exist" +
+        "at the beginning of the simulation",
+        tooltip="Map of facilities and their initial number",
+        alias=['initial_condition', 'facility', 'number'],
+        uilabel="Facility Initial Condition",
+        default={}
+    )    
+
+    initial_facilities = ts.MapStringDouble(
+        doc="A map of initial facilities and their capacities",
+        tooltip="Map of facilities and their initial number",
+        alias=['initial_facilities', 'facility', 'capacity'],
+        uilabel="Initial Facility Capacities",
+        default={}
+    )    
+
     demand_eq = ts.String(
         doc="This is the string for the demand equation of the driving commodity. " +
         "The equation should use `t' as the dependent variable",
@@ -220,6 +237,9 @@ class DemandDrivenDeploymentInst(Institution):
                                           commod].append(self.extract_demand)
                 self.commodity_supply[commod] = defaultdict(float)
                 self.commodity_demand[commod] = defaultdict(float)
+            print(self.initial_condition)
+            print(self.initial_facilities)
+            self.context.schedule_build(self, 'reactor1')
             self.fresh = False
 
     def decision(self):
@@ -228,11 +248,14 @@ class DemandDrivenDeploymentInst(Institution):
         in supply and demand and makes the the decision to deploy facilities or not.
         """
         time = self.context.time
+        #print('time',time)
         for commod, proto_dict in self.commodity_dict.items():
             diff, supply, demand = self.calc_diff(commod, time)
             lib.record_time_series('calc_supply' + commod, self, supply)
             lib.record_time_series('calc_demand' + commod, self, demand)
-
+            #print('commod',commod)
+            #print('supply',supply)
+            #print('demand',demand)
             if diff < 0:
                 if self.installed_cap:
                     deploy_dict = solver.deploy_solver(
