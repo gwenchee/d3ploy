@@ -227,3 +227,19 @@ def test_initial_facility():
     agententry = cursor.execute('SELECT entertime FROM agententry WHERE ' +
                                 'prototype == "reactor"').fetchall()
     assert (len(agententry) == 1)
+
+
+############################ TEST SUPPLY DRIVEN ###################################
+def test_backdeployment():
+    output_ = 'test_supplydriven_installedcap.sqlite'
+    input_path = os.path.abspath(__file__)
+    find = 'd3ploy/'
+    indx = input_path.rfind('d3ploy/')
+    input_ = input_path.replace(
+        input_path[indx + len(find):], 'input/linear_pow_demand_backdeployment_initialfac.xml')
+    s = subprocess.check_output(['cyclus', '-o', output_, input_],
+                                universal_newlines=True, env=ENV)
+    cur = functions.get_cursor(output_)
+    reactor2_entry = cur.execute('SELECT Prototype FROM agententry WHERE ' +
+                                 'prototype == "sink"').fetchall()
+    assert (len(reactor2_entry) == 1)
