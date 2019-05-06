@@ -237,9 +237,17 @@ class DemandDrivenDeploymentInst(Institution):
                                           commod].append(self.extract_demand)
                 self.commodity_supply[commod] = defaultdict(float)
                 self.commodity_demand[commod] = defaultdict(float)
-            print(self.initial_condition)
-            print(self.initial_facilities)
-            self.context.schedule_build(self, 'reactor1')
+            for child in self.children: 
+                count = 0
+                for key, val in self.commodity_dict.items():
+                    for key2, val2 in val.items():
+                        if key2 == child.prototype:
+                            count = 1
+                            itscommod = key
+                if count == 0:
+                    raise Exception('The {} facility that was added to the initial facility list must be included in facility_commod and facility_pref'.format(child.prototype))
+                self.installed_capacity[itscommod][0] = self.commodity_dict[itscommod][child.prototype]['cap']
+            print('IC',self.installed_capacity)
             self.fresh = False
 
     def decision(self):
@@ -248,14 +256,11 @@ class DemandDrivenDeploymentInst(Institution):
         in supply and demand and makes the the decision to deploy facilities or not.
         """
         time = self.context.time
-        #print('time',time)
+        print('time',time)
         for commod, proto_dict in self.commodity_dict.items():
             diff, supply, demand = self.calc_diff(commod, time)
             lib.record_time_series('calc_supply' + commod, self, supply)
             lib.record_time_series('calc_demand' + commod, self, demand)
-            #print('commod',commod)
-            #print('supply',supply)
-            #print('demand',demand)
             if diff < 0:
                 if self.installed_cap:
                     deploy_dict = solver.deploy_solver(
@@ -268,21 +273,12 @@ class DemandDrivenDeploymentInst(Institution):
                         self.context.schedule_build(self, proto)
                 # update installed capacity dict
                 for proto, num in deploy_dict.items():
-                    if time == 0:
-                        self.installed_capacity[commod][time] = 0
-                        self.installed_capacity[commod][time +
-                                                        1] = self.commodity_dict[commod][proto]['cap'] * num
-                    else:
-                        self.installed_capacity[commod][time + 1] = \
-                            self.installed_capacity[commod][time] + \
-                            self.commodity_dict[commod][proto]['cap'] * num
+                    self.installed_capacity[commod][time + 1] = \
+                        self.installed_capacity[commod][time] + \
+                        self.commodity_dict[commod][proto]['cap'] * num
             else:
-                if time == 0:
-                    self.installed_capacity[commod][time] = 0
-                    self.installed_capacity[commod][time + 1] = 0
-                else:
-                    self.installed_capacity[commod][time +
-                                                    1] = self.installed_capacity[commod][time]
+                self.installed_capacity[commod][time +
+                                                1] = self.installed_capacity[commod][time]
 
             if self.record:
                 out_text = "Time " + str(time) + \
