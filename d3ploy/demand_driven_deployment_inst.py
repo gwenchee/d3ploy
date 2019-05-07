@@ -235,14 +235,9 @@ class DemandDrivenDeploymentInst(Institution):
         in supply and demand and makes the the decision to deploy facilities or not.
         """
         time = self.context.time
-        print('time',time)
         for commod, proto_dict in self.commodity_dict.items():
             diff, supply, demand = self.calc_diff(commod, time)
             if commod == 'POWER':
-                print('commod',commod)
-                print('supply',supply)
-                print('demand',demand)
-                print('IC',self.installed_capacity[commod])
             lib.record_time_series('calc_supply' + commod, self, supply)
             lib.record_time_series('calc_demand' + commod, self, demand)
             if diff < 0:
