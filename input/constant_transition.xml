@@ -394,10 +394,6 @@
           <calc_method>ma</calc_method>
           <facility_commod>
             <item>
-              <facility>newreactor</facility>
-              <commod>POWER</commod>
-            </item>
-            <item>
               <facility>reactor10</facility>
               <commod>POWER</commod>
             </item>
@@ -447,10 +443,6 @@
             </item>
           </facility_commod>
           <facility_capacity>
-            <item>
-              <facility>newreactor</facility>
-              <capacity>1000</capacity>
-            </item>
             <item>
               <facility>reactor10</facility>
               <capacity>1000</capacity>
@@ -539,10 +531,6 @@
             </item>
             <item>
             <facility>reactor9</facility>
-            <pref>-1</pref>
-            </item>
-            <item>
-            <facility>reactor10</facility>
             <pref>-1</pref>
             </item>
           </facility_pref>
