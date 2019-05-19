@@ -50,6 +50,18 @@
 
   <facility>
     <config>
+      <Source>
+        <outcommod>fuel</outcommod>
+        <outrecipe>fresh_uox</outrecipe>
+        <throughput>90000</throughput>
+      </Source>
+    </config>
+    <name>initialsource</name>
+    <lifetime>2</lifetime>
+  </facility>
+
+  <facility>
+    <config>
       <Reactor>
         <assem_size>1000</assem_size>
         <cycle_time>11</cycle_time>
@@ -322,7 +334,7 @@
     <config>
       <Reactor>
         <assem_size>1000</assem_size>
-        <cycle_time>20</cycle_time>
+        <cycle_time>18</cycle_time>
         <fuel_incommods>
           <val>fuel</val>
         </fuel_incommods>
@@ -338,7 +350,7 @@
         <n_assem_batch>1</n_assem_batch>
         <n_assem_core>3</n_assem_core>
         <power_cap>1000</power_cap>
-        <refuel_time>0</refuel_time>
+        <refuel_time>1</refuel_time>
       </Reactor>
     </config>
     <name>newreactor</name>
@@ -393,6 +405,10 @@
         <DemandDrivenDeploymentInst>
           <calc_method>ma</calc_method>
           <facility_commod>
+          <item>
+              <facility>newreactor</facility>
+              <commod>POWER</commod>
+            </item>
             <item>
               <facility>reactor10</facility>
               <commod>POWER</commod>
@@ -438,11 +454,19 @@
               <commod>fuel</commod>
             </item>
             <item>
+              <facility>initialsource</facility>
+              <commod>fuel</commod>
+            </item>
+            <item>
               <facility>lwrsink</facility>
               <commod>spent_fuel</commod>
             </item>
           </facility_commod>
           <facility_capacity>
+          <item>
+              <facility>newreactor</facility>
+              <capacity>1000</capacity>
+            </item>
             <item>
               <facility>reactor10</facility>
               <capacity>1000</capacity>
@@ -486,6 +510,10 @@
             <item>
               <facility>source</facility>
               <capacity>3000</capacity>
+            </item>
+            <item>
+              <facility>initialsource</facility>
+              <capacity>90000</capacity>
             </item>
             <item>
               <facility>lwrsink</facility>
@@ -533,6 +561,14 @@
             <facility>reactor9</facility>
             <pref>-1</pref>
             </item>
+            <item>
+            <facility>reactor10</facility>
+            <pref>-1</pref>
+            </item>
+            <item>
+            <facility>initialsource</facility>
+            <pref>-1</pref>
+            </item>
           </facility_pref>
           <demand_eq>10000</demand_eq>
           <record>1</record>
@@ -553,6 +589,10 @@
         </DemandDrivenDeploymentInst>
       </config>
         <initialfacilitylist>
+        <entry>
+          <number>1</number>
+          <prototype>initialsource</prototype>
+        </entry>
         <entry>
           <number>1</number>
           <prototype>reactor1</prototype>
