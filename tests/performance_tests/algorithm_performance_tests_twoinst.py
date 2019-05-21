@@ -68,7 +68,7 @@ scenario_template = {
 
 ##########################TWO INST SCENARIO 2##########################
 # scenario 2, source -> reactor (cycle time = 1, refuel time = 0) -> sink
-demand_eq = "1000*t"
+demand_eq = "100*t"
 
 scenario_2_input = copy.deepcopy(scenario_template)
 scenario_2_input["simulation"].update({"facility": [{
@@ -109,7 +109,8 @@ scenario_2_input["simulation"].update({"region": {   "config": {"NullRegion": "\
     "driving_commod": "POWER", 
     "facility_capacity": {"item": {"capacity": "3000", "facility": "source"}}, 
     "facility_commod": {"item": {"commod": "fuel", "facility": "source"}}, 
-    "supply_buffer":{"item": {"commod": "fuel", "buffer": "0.20"}}, 
+    "supply_buffer":{"item": {"commod": "fuel", "buffer": "3000"}}, 
+    "buffer_type":{"item": {"commod": "fuel", "type": "float"}}, 
     "record": "1", 
     "steps": "1"
     }
@@ -124,7 +125,8 @@ scenario_2_input["simulation"].update({"region": {   "config": {"NullRegion": "\
     "driving_commod": "POWER", 
     "facility_capacity": {"item": {"capacity": "1000", "facility": "reactor"}}, 
     "facility_commod": {"item": {"commod": "POWER", "facility": "reactor"}}, 
-    "supply_buffer":{"item": {"commod": "POWER", "buffer": "0.20"}}, 
+    "supply_buffer":{"item": {"commod": "POWER", "buffer": "0"}}, 
+    "buffer_type":{"item": {"commod": "POWER", "type": "float"}}, 
     "record": "1", 
     "steps": "1"
     }
@@ -168,7 +170,7 @@ plotter.plot_demand_supply_agent(
     name + '_power',
     True,
     False,
-    True)
+    False)
 plotter.plot_demand_supply_agent(
     all_dict_fuel,
     agent_entry_dict['fuel'],
@@ -176,7 +178,7 @@ plotter.plot_demand_supply_agent(
     name + '_fuel',
     True,
     False,
-    True)
+    False)
 
 calc_method = "scenario2"
 
