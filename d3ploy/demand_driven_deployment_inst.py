@@ -175,12 +175,30 @@ class DemandDrivenDeploymentInst(Institution):
         default=1
     )
 
+    os_time = ts.Int(
+        doc="The number of oversupply timesteps before decommission",
+        tooltip="",
+        uilabel="Oversupply Time Limit",
+        default=5
+    )
+
+    os_int = ts.Int(
+        doc="The number facilities over capacity " + 
+            "for a given commodity that is allowed. i.e If this" +
+            " value is 1. One facility capacity over demand is considered" +
+            " an oversupplied situtation.",
+        tooltip="",
+        uilabel="Oversupply Fac Limit",
+        default=1
+    )
+
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.commodity_supply = {}
         self.commodity_demand = {}
         self.installed_capacity = {}
         self.fac_commod = {}
+        self.commod_os = {}
         self.fresh = True
         CALC_METHODS['ma'] = no.predict_ma
         CALC_METHODS['arma'] = no.predict_arma
@@ -212,6 +230,7 @@ class DemandDrivenDeploymentInst(Institution):
                 self.facility_constraintval,
                 self.facility_sharing)
             for commod, proto_dict in self.commodity_dict.items():
+                self.commod_os[commod] = 0
                 protos = proto_dict.keys()
                 for proto in protos:
                     self.fac_commod[proto] = commod
@@ -243,6 +262,7 @@ class DemandDrivenDeploymentInst(Institution):
                                           commod].append(self.extract_demand)
                 self.commodity_supply[commod] = defaultdict(float)
                 self.commodity_demand[commod] = defaultdict(float)
+            self.commod_mins = solver.find_mins(self.commodity_dict)
             for child in self.children:
                 itscommod = self.fac_commod[child.prototype]
                 self.installed_capacity[itscommod][0] += \
@@ -277,9 +297,15 @@ class DemandDrivenDeploymentInst(Institution):
                     self.installed_capacity[commod][time + 1] += \
                         self.commodity_dict[commod][proto]['cap'] * num
             else:
-                self.installed_capacity[commod][time + 1] = \
-                    self.installed_capacity[commod][time]
-
+                self.installed_capacity[commod][time +
+                                                1] = self.installed_capacity[commod][time]
+            os_limit = self.commod_mins[commod] * self.os_int
+            if diff > os_limit:
+                self.commod_os[commod] += 1
+            else:
+                self.commod_os[commod] = 0
+            if diff > os_limit and self.commod_os[commod] > self.os_time:
+                solver.decommission_oldest(self, self.commodity_dict[commod], diff, commod, time)
             if self.record:
                 out_text = "Time " + str(time) + \
                     " Deployed " + str(len(self.children))
