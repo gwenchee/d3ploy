@@ -96,7 +96,7 @@ def supply_demand_dict_driving(sqlite, demand_eq, commod):
     return all_dict
 
 
-def supply_demand_dict_nondriving(sqlite, commod, demand_driven):
+def supply_demand_dict_nondriving(sqlite, commod, demand_driven,calc=True):
     """ Puts supply, demand, calculated demand and
     calculated supply into a nice dictionary format
     if given the sql file and commodity name
@@ -129,24 +129,27 @@ def supply_demand_dict_nondriving(sqlite, commod, demand_driven):
         "select time, sum(value) from " +
         tables[0] +
         " group by time").fetchall()
-    calc_fuel_demand = cur.execute(
-        "select time, sum(value) from " +
-        tables[1] +
-        " group by time").fetchall()
-    calc_fuel_supply = cur.execute(
-        "select time, sum(value) from " +
-        tables[2] +
-        " group by time").fetchall()
+    if calc: 
+        calc_fuel_demand = cur.execute(
+            "select time, sum(value) from " +
+            tables[1] +
+            " group by time").fetchall()
+        calc_fuel_supply = cur.execute(
+            "select time, sum(value) from " +
+            tables[2] +
+            " group by time").fetchall()
+
     dict_demand = {}
     dict_supply = {}
     dict_calc_demand = {}
     dict_calc_supply = {}
     for x in range(0, len(fuel_supply)):
         dict_supply[fuel_supply[x][0]] = fuel_supply[x][1]
-    for x in range(0, len(calc_fuel_demand)):
-        dict_calc_demand[calc_fuel_demand[x][0]] = calc_fuel_demand[x][1]
-    for x in range(0, len(calc_fuel_supply)):
-        dict_calc_supply[calc_fuel_supply[x][0]] = calc_fuel_supply[x][1]
+    if calc: 
+        for x in range(0, len(calc_fuel_demand)):
+            dict_calc_demand[calc_fuel_demand[x][0]] = calc_fuel_demand[x][1]
+        for x in range(0, len(calc_fuel_supply)):
+            dict_calc_supply[calc_fuel_supply[x][0]] = calc_fuel_supply[x][1]
 
     t = np.fromiter(dict_supply.keys(), dtype=float)
     for x in range(0, len(t)):
